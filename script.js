@@ -30,7 +30,7 @@ document.getElementById("reset").addEventListener("click", () => {
   document.getElementById("st-1").style.display = "none";
   document.getElementById("st-2").style.display = "none";
 });
-let currentTheme = "dark";
+let currentTheme = localStorage.getItem("theme") || "dark";
 let uploadedImage;
 let selectedNames = ["Demo Name"];
 let canvas, ctx, previewCanvas, previewCtx;
@@ -365,82 +365,4 @@ document
   .addEventListener("click", function () {
     document.getElementById("imageUpload").click();
   });
-document.addEventListener("DOMContentLoaded", function () {
-  const themeToggle = document.getElementById("themeToggle");
 
-  // Check local storage for the saved theme, default to 'dark' if not set // Default to 'dark' theme
-  let e = document.getElementById("favicon");
-  let e2 = document.getElementById("favicon2");
-  let e3 = document.getElementById("git");
-  let e4 = document.getElementById("mode");
-  let nav = document.getElementById("navcolor");
-  let star = document.getElementById("starlogo");
-  let box = document.getElementsByClassName("box1");
-  let child = document.getElementsByClassName("box2");
-  let lettter = document.getElementsByClassName("letter");
-  let up=document.getElementsByClassName("up")
-  // Apply the current theme
-  applyTheme(currentTheme);
-
-  // Function to apply the theme based on the given theme
-  function applyTheme(theme) {
-    if (theme === "dark") {
-      document.body.style.backgroundColor = "black"; // Set dark background
-      document.body.style.color = "white";
-      // Adjust favicon or any other elements if needed
-      e.classList.remove("invert-svg");
-      e2.classList.remove("invert-svg");
-      e3.style.color = "hsl(var(--foreground) / .6)";
-      e4.src = "./assest/brightness (1).png";
-      star.style.color = "hsl(var(--foreground) / .6)";
-      themeToggle.style.backgroundColor = "#1c1c1e";
-      nav.style.backgroundColor = "black";
-     
-      for (let i = 0; i < box.length; i++) {
-        box[i].style.backgroundColor = "#1e1e1e"; // Set background color for light theme
-      }
-      for (let i = 0; i < child.length; i++) {
-        child[i].style.backgroundColor = "#292b2c"; // Set background color for light theme
-      }
-      for (let j = 0; j < lettter.length; j++) {
-        lettter[j].style.color = "white";
-        lettter[j].style.backgroundColor = "#1c1c1e";
-      }
-      for(let i=0;i<up.length;i++){
-        up[i].style.color='#bfbfbf'
-      }
-  
-    } else {
-      document.body.style.backgroundColor = "white"; // Set light background
-      document.body.style.color = "black"; // Set text color for light theme
-      e.classList.add("invert-svg");
-      e2.classList.add("invert-svg");
-      e3.style.color = "black";
-      e4.src = "./assest/night-mode.png";
-      star.style.color = "black";
-      themeToggle.style.backgroundColor = "white";
-      nav.style.backgroundColor = "white";
-  
-      for (let i = 0; i < box.length; i++) {
-        box[i].style.backgroundColor = "#e6e6e6"; // Set background color for light theme
-      }
-      for (let i = 0; i < child.length; i++) {
-        child[i].style.backgroundColor = "white"; // Set background color for light theme
-      }
-      for (let j = 0; j < lettter.length; j++) {
-        lettter[j].style.color = "black";
-        lettter[j].style.backgroundColor = "white";
-      }
-      for(let i=0;i<up.length;i++){
-        up[i].style.color='black'
-      }
-     
-    }
-  }
-
-  // Add click event to the toggle button
-  themeToggle.addEventListener("click", () => {
-    currentTheme = currentTheme === "dark" ? "light" : "dark"; // Toggle theme
-    applyTheme(currentTheme); // Apply the new theme
-  });
-});

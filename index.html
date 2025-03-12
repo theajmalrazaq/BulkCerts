@@ -4,53 +4,51 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <link rel="stylesheet" href="https://unpkg.com/franken-wc@0.0.4/dist/css/neutral.min.css" />
+  <script src="https://unpkg.com/@tailwindcss/browser@4"></script>
   <link rel="icon" type="image/x-icon" href="assest/favicon.ico" />
+ <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.js"></script>
   <meta name="theme-color" content="#0d0d0d" />
   <link rel="stylesheet" href="style.css" />
   <title>Certedit</title>
 </head>
 
-<body>
-  <div class="uk-position-fixed uk-width-1-1"  style="z-index: 999">
-    <nav class="uk-navbar-container" id="navcolor">
-      <div class="uk-container">
-        <div uk-navbar>
-          <div class="uk-navbar-left">
-            <a class="uk-navbar-item uk-logo" href="#" id="reset" aria-label="Back to Home"><img
-                src="assest/ertedit.svg" alt="" class="nav_logo" id="favicon"/></a>
+<body class="h-screen relative flex flex-col overflow-hidden bg-black dark:text-white">
+  <div style="z-index: 999" class="fixed w-full">
+    <nav class="px-4 sm:px-6 py-4 flex justify-between flex-row " id="navcolor">
 
-            <ul class="uk-navbar-nav">
+    
+          <div class=" flex justify-around w-full"> 
+            <div class=" bg-black/20 border-2 border-white/10 px-7 py-3 rounded-full flex w-96 justify-between">
+              
+            <a href="/" id="reset" aria-label="Back to Home"><img
+                src="assest/ertedit.svg" alt="" class="h-10" id="favicon"/></a>
+                 
+            <ul class="flex items-center justify-center space-x-8">
               <li>
-                <a href="https://github.com/theajmalrazaq/certedit" class="uk-flex uk-flex-middle" target="_blank">
-                  <span class="uk-icon uk-margin-small-right" uk-icon="icon: star" id="starlogo"></span>
-                  <span style="margin-top: 5px" id="git"> Star on Github</span>
+                <a href="https://github.com/theajmalrazaq/certedit" target="_blank" class="flex items-center space-x-2 text-white hover:text-white transition-all">
+                  <i data-lucide="github" class="h-5" id="git"></i>
                 </a>
               </li>
-              <li class="place">
-                <button id="themeToggle" class="uk-button uk-button-default "><img src="./assest/brightness (1).png" id="mode" alt="" class="bright"></button>
-              </li>
             </ul>
-          </div>
-        </div>
+    </div>
       </div>
     </nav>
   </div>
-  <div id="home" class="uk-height-1-1">
-    <div class="uk-container uk-height-1-1 uk-flex uk-flex-around uk-flex-middle uk-flex-wrap-reverse">
-      <div class="uk-flex uk-flex-column uk-height-large uk-flex-between uk-flex-middle">
-        <div >
-          <img src="assest/ertedit.svg" alt="" class="logo" id="favicon2" />
+  <div id="home">
+    <div class="flex justify-center items-center h-screen flex-col gap-10 overflow-hidden">
+        <div class="flex flex-col gap-4 items-center">
+          <img src="assest/ertedit.svg" alt="" class="logo h-30" id="favicon2" />
           <h1 class="uk-margin-small-top">
-            Generate Certificate with different names at once
+            "Batch it. Brand it. Boom! 🎉 CertEdit lets you create bulk certificates in seconds—zero hassle, all flex."
           </h1>
           <p>
             Designed with 💖 By
             <a class="uk-link" href="https://github.com/theajmalrazaq">AjmaL Razaq Bhatti</a>
           </p>
         </div>
-        <button class="uk-button uk-button-default btn uk-text-bold uk-text-large" id="generate">
-          Generate
+        <button class="bg-[#FE7E62] rounded-full px-5 py-4 flex justify-center items-center text-black font-medium gap-2" id="generate">
+         <span class="ml-2">Generate Certificates</span>
+        <i data-lucide="arrow-right" class="h-5 mt-1"></i>
         </button>
       </div>
     </div>
@@ -136,10 +134,11 @@
       <canvas id="previewCanvas"></canvas>
     </div>
   </div>
-  <script src="https://cdn.jsdelivr.net/npm/uikit@3.21.6/dist/js/uikit.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/uikit@3.21.6/dist/js/uikit-icons.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
   <script src="script.js"></script>
+  <script>
+    lucide.createIcons();
+  </script>
 </body>
 
 </html>
