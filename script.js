@@ -261,7 +261,7 @@ function exportAsPDF() {
     ctx.clearRect(0, 0, canvas.width, canvas.height);
     ctx.drawImage(uploadedImage, 0, 0);
 
-    ctx.font = `${fontStyle} ${fontWeight} ${fontSize}px ${fontFamily}`;
+    ctx.font = `${fontSize}px ${customFont || "Arial"}`;
     ctx.fillStyle = customColor;
     ctx.textAlign = textAlign;
 
