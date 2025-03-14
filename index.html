@@ -14,11 +14,10 @@
 
 <body class="h-screen relative flex flex-col overflow-hidden bg-black dark:text-white">
   <div style="z-index: 999" class="fixed w-full">
-    <nav class="px-4 sm:px-6 py-4 flex justify-between flex-row " id="navcolor">
+    <nav class="px-4 sm:px-6 py-3 flex justify-between flex-row" id="navcolor">
 
-    
           <div class=" flex justify-around w-full"> 
-            <div class=" bg-black/20 border-2 border-white/10 px-7 py-3 rounded-full flex w-96 justify-between">
+            <div class=" bg-black border-2 border-[#212121] px-7 py-3 rounded-3xl flex w-96 justify-between">
               
             <a href="/" id="reset" aria-label="Back to Home"><img
                 src="assest/ertedit.svg" alt="" class="h-10" id="favicon"/></a>
@@ -34,19 +33,19 @@
       </div>
     </nav>
   </div>
-  <div id="home">
+  <div id="home" class="mx-4">
     <div class="flex justify-center items-center h-screen flex-col gap-10 overflow-hidden">
         <div class="flex flex-col gap-4 items-center">
           <img src="assest/ertedit.svg" alt="" class="logo h-30" id="favicon2" />
-          <h1 class="uk-margin-small-top">
+          <h1 class="uk-margin-small-top text-center sm:text-base text-sm">
             "Batch it. Brand it. Boom! 🎉 CertEdit lets you create bulk certificates in seconds—zero hassle, all flex."
           </h1>
-          <p>
+          <p class="sm:text-base text-sm">
             Designed with 💖 By
             <a class="uk-link" href="https://github.com/theajmalrazaq">AjmaL Razaq Bhatti</a>
           </p>
         </div>
-        <button class="bg-[#FE7E62] rounded-full px-5 py-4 flex justify-center items-center text-black font-medium gap-2" id="generate">
+       <button class="bg-[#FE7E62] rounded-full px-5 py-4 flex justify-center items-center text-black font-medium gap-2 cursor-pointer hover:bg-gradient-to-b hover:from-white/50 hover:to-[#fe7e62] transition-all duration-1000 hover:shadow-lg hover:shadow-[#FE7E62]/30" id="generate">
          <span class="ml-2">Generate Certificates</span>
         <i data-lucide="arrow-right" class="h-5 mt-1"></i>
         </button>
@@ -54,22 +53,22 @@
     </div>
   </div>
 
-  <div id="st-1" class="uk-flex-center uk-flex-middle uk-padding uk-flex-wrap uk-height-1-1" style="display: none">
-    <div class="uk-section">
-      <div class="uk-container uk-container-xsmall">
-        <div  class="uk-card uk-card-default box1" >
-          <div class="uk-card-header box2" >
+  <div id="st-1" class="flex justify-center items-center h-screen p-6" style="display: none">
+    <div class="bg-black h-fit justify-between p-10 rounded-3xl flex flex-col gap-10 items-center">
+     
+          <div class="flex flex-col justify-center items-center" >
             <h3 class="uk-card-title">Step 1</h3>
             <p class="uk-margin-small-top uk-text-small text-muted-foreground up" id="Upload">
               Upload Certificate on which you want to add names
             </p>
           </div>
 
-          <div class="js-upload uk-form-custom uk-padding-small" uk-form-custom="" style="width: fit-content">
+          <div class="w-full h-10 bg-white/10 text-center flex justify-center items-center p-16 rounded-2xl" uk-form-custom="">
             <label for="imageUpload" style="cursor: pointer;">
               <input type="file" accept="image/*" id="imageUpload" style="display: none;" />
-              <button class="uk-button uk-button-default letter" type="button" tabindex="-1" id="selectImageButton"
+              <button class="flex flex-col gap-3 justify-center items-center" type="button" tabindex="-1" id="selectImageButton"
                 style="cursor: pointer;">
+                 <i data-lucide="upload"></i>
                 Select Certificate Image
               </button>
             </label>
@@ -78,18 +77,17 @@
 
           </div>
 
-          <div class="uk-card-footer uk-flex uk-flex-between box2">
-            <button class="uk-button uk-button-default letter" id="bck1">
+          <div class="w-fit p-4 bg-[#212121] text-center flex justify-around items-center rounded-2xl gap-10">
+            <button class="bg-[#303030] px-4 py-2 rounded-lg cursor-pointer" id="bck1">
               Back
             </button>
-            <button class="uk-button uk-button-default letter" id="confirmArea">
+            <button class="bg-green-400 px-4 py-2 rounded-lg cursor-pointer" id="confirmArea">
               Confirm
             </button>
           </div>
-        </div>
-      </div>
+     
     </div>
-    <div class="uk-container uk-container-xsmall uk-flex uk-flex-center uk-remove-padding">
+    <div class="hidden" id="preview">
       <canvas id="imageCanvas"></canvas>
     </div>
   </div>

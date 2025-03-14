@@ -2,6 +2,8 @@ document
   .getElementById("imageUpload")
   .addEventListener("change", handleImageUpload);
 
+
+
 document.getElementById("confirmArea").addEventListener("click", confirmArea);
 
 document
@@ -85,6 +87,7 @@ function confirmArea() {
   }
   document.getElementById("st-1").style.display = "none";
   document.getElementById("st-2").style.display = "flex";
+
 
   document.getElementById("csvUpload").style.display = "block";
   document.getElementById("fontUpload").style.display = "block";
