@@ -1,7 +1,5 @@
 <img src="https://github.com/theajmalrazaq/certedit/raw/master/assest/ertedit.svg" width="200px"/>
 
-# CertEdit
-
 # Hacktoberfest Todos Suggestions
 
 1. Drag-and-Drop Functionality
