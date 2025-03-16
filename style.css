@@ -2,7 +2,11 @@
   font-family: firs;
   src: url(assest/TT\ Firs\ Neue\ Trial\ Medium.ttf);
 }
-body{
- background-image:  radial-gradient(circle at center,rgba(55,46,0,.4) 1px,transparent 0);
-     background-size: 12px 12px;
+body {
+  background-image: radial-gradient(
+    circle at center,
+    rgba(60, 60, 60, 0.1) 1px,
+    transparent 0
+  );
+  background-size: 12px 12px;
 }

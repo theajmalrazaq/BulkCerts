@@ -1,14 +1,13 @@
 <img src="https://github.com/theajmalrazaq/certedit/raw/master/assest/ertedit.svg" width="200px"/>
 
-
 # CertEdit
 
 # Hacktoberfest Todos Suggestions
+
 1. Drag-and-Drop Functionality
 2. Advanced Font Customization
 3. Export as PDF
 4. Print Certificates Directly
-
 
 Welcome to CertEdit, the only certificate generator you'll ever need because, let's face it, who has time to handwrite names on certificates? Not you, that's for sure. CertEdit is a gloriously simple web app built with good old vanilla JavaScript and HTML, because why make things easy when you can do it the hard way?
 
@@ -71,7 +70,7 @@ We welcome contributions, mostly because we need the help. If you have any sugge
 1. Fork the repository. You know the drill.
 2. Create a new branch for your feature or bugfix. Make it snazzy.
 3. Make your changes and commit them with descriptive messages. No "fixed stuff" commits, please.
-4. Push your changes to your fork. 
+4. Push your changes to your fork.
 5. Open a pull request to the main repository. We might even accept it.
 
 ## License
@@ -83,10 +82,11 @@ This project is licensed under the MIT License. See the [LICENSE](LICENSE) file 
 - Inspired by the principles of Franken UI. Whatever that means.
 - Built with vanilla JavaScript and HTML. Because we're purists.
 
-
 ---
 
 Thank you for using CertEdit! We hope it makes your certificate generation process marginally less painful and maybe even slightly enjoyable. Probably not, though.
+
 ```
 
 This version should add a bit of humor and sarcasm while still conveying all the necessary information. If you want any more tweaks or further customization, just let me know!
+```

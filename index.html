@@ -1,142 +1,398 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en" class="dark">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <script src="https://unpkg.com/@tailwindcss/browser@4"></script>
+    <link rel="icon" type="image/x-icon" href="assest/favicon.ico" />
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <meta name="theme-color" content="#0d0d0d" />
+    <link rel="stylesheet" href="style.css" />
+    <title>Certedit</title>
+  </head>
 
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <script src="https://unpkg.com/@tailwindcss/browser@4"></script>
-  <link rel="icon" type="image/x-icon" href="assest/favicon.ico" />
- <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.js"></script>
-  <meta name="theme-color" content="#0d0d0d" />
-  <link rel="stylesheet" href="style.css" />
-  <title>Certedit</title>
-</head>
+  <body
+    class="h-screen relative flex flex-col overflow-hidden bg-[#0c0c0c] dark:text-white"
+  >
+    <img
+      alt="Navbar blur"
+      fetchpriority="high"
+      loading="eager"
+      width="1728"
+      height="200"
+      decoding="sync"
+      data-nimg="1"
+      class="pointer-events-none absolute left-0 bottom-0 z-10 hidden w-full select-none md:block rotate-180"
+      style="color: transparent"
+      src="/assest/image 4.png"
+    />
+    <div style="z-index: 999" class="fixed w-full">
+      <nav class="px-4 sm:px-6 py-3 flex justify-between flex-row" id="navbar">
+        <div class="flex justify-around w-full">
+          <div
+            class="bg-[#121212] border-2 border-[#212121] px-3 py-3 rounded-3xl flex w-96 justify-between bg-opacity-5"
+          >
+            <a href="/" id="reset" aria-label="Back to Home"
+              ><img src="assest/logo.svg" alt="" class="h-9" id="favicon"
+            /></a>
 
-<body class="h-screen relative flex flex-col overflow-hidden bg-black dark:text-white">
-  <div style="z-index: 999" class="fixed w-full">
-    <nav class="px-4 sm:px-6 py-3 flex justify-between flex-row" id="navcolor">
-
-          <div class=" flex justify-around w-full"> 
-            <div class=" bg-black border-2 border-[#212121] px-7 py-3 rounded-3xl flex w-96 justify-between">
-              
-            <a href="/" id="reset" aria-label="Back to Home"><img
-                src="assest/ertedit.svg" alt="" class="h-10" id="favicon"/></a>
-                 
             <ul class="flex items-center justify-center space-x-8">
-              <li>
-                <a href="https://github.com/theajmalrazaq/certedit" target="_blank" class="flex items-center space-x-2 text-white hover:text-white transition-all">
+              <li class="px-3">
+                <a
+                  href="https://github.com/theajmalrazaq/certedit"
+                  target="_blank"
+                  class="flex items-center space-x-2 text-white hover:text-white transition-all"
+                >
                   <i data-lucide="github" class="h-5" id="git"></i>
                 </a>
               </li>
             </ul>
-    </div>
-      </div>
-    </nav>
-  </div>
-  <div id="home" class="mx-4">
-    <div class="flex justify-center items-center h-screen flex-col gap-10 overflow-hidden">
-        <div class="flex flex-col gap-4 items-center">
-          <img src="assest/ertedit.svg" alt="" class="logo h-30" id="favicon2" />
-          <h1 class="uk-margin-small-top text-center sm:text-base text-sm">
-            "Batch it. Brand it. Boom! 🎉 CertEdit lets you create bulk certificates in seconds—zero hassle, all flex."
-          </h1>
-          <p class="sm:text-base text-sm">
-            Designed with 💖 By
-            <a class="uk-link" href="https://github.com/theajmalrazaq">AjmaL Razaq Bhatti</a>
-          </p>
+          </div>
         </div>
-       <button class="bg-[#FE7E62] rounded-full px-5 py-4 flex justify-center items-center text-black font-medium gap-2 cursor-pointer hover:bg-gradient-to-b hover:from-white/50 hover:to-[#fe7e62] transition-all duration-1000 hover:shadow-lg hover:shadow-[#FE7E62]/30" id="generate">
-         <span class="ml-2">Generate Certificates</span>
-        <i data-lucide="arrow-right" class="h-5 mt-1"></i>
+      </nav>
+    </div>
+    <div id="home" class="mx-4">
+      <div
+        class="flex justify-center items-center h-screen flex-col gap-10 overflow-hidden"
+      >
+        <div class="flex flex-col gap-4 items-center">
+          <img
+            src="assest/ertedit.svg"
+            alt=""
+            class="logo h-40"
+            id="favicon2"
+          />
+          <h1 class="uk-margin-small-top text-center sm:text-base text-sm">
+            Batch it. Brand it. Boom! 🎉 CertEdit lets you create bulk
+            certificates in seconds—zero hassle, all flex.
+          </h1>
+        </div>
+        <button
+          class="group bg-[#FF2E00] rounded-full px-5 py-4 flex justify-center items-center text-white font-medium gap-2 cursor-pointer hover:bg-gradient-to-b"
+          id="generate"
+        >
+          <span class="ml-2">Generate Certificates</span>
+          <i
+            data-lucide="arrow-right"
+            class="h-5 mt-1 transition-transform duration-300 group-hover:translate-x-1"
+          ></i>
         </button>
       </div>
     </div>
-  </div>
 
-  <div id="st-1" class="flex justify-center items-center h-screen p-6" style="display: none">
-    <div class="bg-black h-fit justify-between p-10 rounded-3xl flex flex-col gap-10 items-center">
-     
-          <div class="flex flex-col justify-center items-center" >
-            <h3 class="uk-card-title">Step 1</h3>
-            <p class="uk-margin-small-top uk-text-small text-muted-foreground up" id="Upload">
-              Upload Certificate on which you want to add names
-            </p>
-          </div>
-
-          <div class="w-full h-10 bg-white/10 text-center flex justify-center items-center p-16 rounded-2xl" uk-form-custom="">
-            <label for="imageUpload" style="cursor: pointer;">
-              <input type="file" accept="image/*" id="imageUpload" style="display: none;" />
-              <button class="flex flex-col gap-3 justify-center items-center" type="button" tabindex="-1" id="selectImageButton"
-                style="cursor: pointer;">
-                 <i data-lucide="upload"></i>
-                Select Certificate Image
-              </button>
-            </label>
-
-
-
-          </div>
-
-          <div class="w-fit p-4 bg-[#212121] text-center flex justify-around items-center rounded-2xl gap-10">
-            <button class="bg-[#303030] px-4 py-2 rounded-lg cursor-pointer" id="bck1">
-              Back
+    <div
+      id="st-1"
+      class="flex flex-col justify-center items-center gap-10 h-screen p-3"
+      style="display: none"
+    >
+      <h3
+        class="bg-black flex justify-center items-center px-6 py-2 rounded-full border border-white/10 font-mono"
+      >
+        Step 1
+      </h3>
+      <div class="flex flex-col justify-center items-center">
+        <p class="sm:text-normal text-sm text-center" id="Upload">
+          Upload Certificate on which you want to add names
+        </p>
+      </div>
+      <div
+        class="h-fit bg-black justify-between px-8 py-8 rounded-3xl flex flex-col gap-10 items-center border-2 border-white/10"
+      >
+        <div
+          class="w-60 h-35 border-2 border-white/10 text-center flex justify-center items-center rounded-2xl"
+          uk-form-custom=""
+        >
+          <label for="imageUpload">
+            <input
+              type="file"
+              accept="image/*"
+              id="imageUpload"
+              style="display: none"
+            />
+            <button
+              class="flex flex-col gap-3 justify-center items-center cursor-pointer"
+              type="button"
+              tabindex="-1"
+              id="selectImageButton"
+              style="cursor: pointer"
+            >
+              <i data-lucide="upload"></i>
+              Select Certificate Image
             </button>
-            <button class="bg-green-400 px-4 py-2 rounded-lg cursor-pointer" id="confirmArea">
-              Confirm
-            </button>
-          </div>
-     
-    </div>
-    <div class="hidden" id="preview">
-      <canvas id="imageCanvas"></canvas>
-    </div>
-  </div>
-  <div id="st-2" class="uk-flex-center uk-flex-middle uk-padding uk-flex-wrap uk-height-1-1" style="display: none">
-    <div class="uk-section">
-      <div class="uk-card uk-card-default box1">
-        <div class="uk-card-header box2">
-          <h3 class="uk-card-title">Step 2</h3>
-          <p class="uk-margin-small-top uk-text-small text-muted-foreground up">
-            Select Name list txt/csv for which you want to generate
-            certificates
-          </p>
-        </div>
-        <div class="input_wrapper uk-flex uk-flex-column uk-padding-small uk-flex-between">
-          <div class="js-upload uk-form-custom" uk-form-custom="" style="width: fit-content">
-            <input type="file" accept=".csv,.txt" id="csvUpload" />
-            <button class="uk-button uk-button-default letter" type="button" tabindex="-1">
-              Select Name List
-            </button>
-          </div>
-          <div class="js-upload uk-form-custom uk-margin-small-top" uk-form-custom="" style="width: fit-content">
-            <input type="file" accept=".ttf,.otf" id="fontUpload" />
-            <button class="uk-button uk-button-default letter" type="button" tabindex="-1">
-              Select Custom Font
-            </button>
-          </div>
-        </div>
-        <div class="js-upload uk-form-custom uk-padding-small" uk-form-custom="">
-          <input type="color" id="colorPicker" style="display: none" />
-          <input type="range" id="fontSize" min="10" max="100" value="20" style="display: none" class="uk-margin" />
+            <div id="view" class="hidden h-24 relative w-24 rounded-full"></div>
+          </label>
         </div>
 
-        <div class="uk-card-footer uk-flex uk-flex-between box2">
-          <button class="uk-button uk-button-default letter" id="bck2">Back</button>
-          <button class="uk-button uk-button-default letter" id="saveImages">Download</button>
-          <button class="uk-button uk-button-default letter" id="exportPDF">Export as PDF</button>
-          <button class="uk-button uk-button-secondary " id="printButton">Print</button>
+        <div
+          class="w-fit p-4 border-2 border-white/10 text-center flex justify-around items-center rounded-2xl gap-10"
+        >
+          <button
+            class="bg-[#303030] px-4 py-2 rounded-lg cursor-pointer"
+            id="bck1"
+          >
+            Back
+          </button>
+          <button
+            class="bg-[#ff2e00] px-4 py-2 rounded-lg cursor-pointer"
+            id="confirmArea"
+          >
+            Confirm
+          </button>
         </div>
       </div>
     </div>
-    <div class="uk-container uk-container-xsmall uk-flex uk-flex-center">
-      <canvas id="previewCanvas"></canvas>
-    </div>
-  </div>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
-  <script src="script.js"></script>
-  <script>
-    lucide.createIcons();
-  </script>
-</body>
+    <div id="st-2" class="flex h-screen relative" style="display: none">
+      <!-- Sidebar - Edit Area -->
+      <div
+        id="sidebar"
+        class="w-0 lg:w-[380px] m-5 border-2 rounded-3xl border-[#121212] bg-[#0c0c0c] overflow-hidden transition-all duration-300"
+      >
+        <div
+          id="ajmalrazaqbhatti"
+          class="h-full flex flex-col p-5 lg:p-6 overflow-y-auto"
+        >
+          <!-- Header with timestamp -->
+          <div
+            class="flex gap-2 items-center pb-4 mb-4 border-b border-gray-700/30"
+          >
+            <img src="/assest/logo.svg" alt="" class="h-5" />
+            <h3 class="text-gray-200 font-medium">CertEdit</h3>
+          </div>
 
+          <!-- Upload Section with Modern Styling -->
+          <div class="space-y-4 mb-5">
+            <!-- Name List Upload -->
+            <div class="group relative">
+              <label
+                for="csvUpload"
+                class="block text-xs font-medium text-gray-400 mb-2"
+                >NAME LIST</label
+              >
+              <div class="relative flex items-center">
+                <input
+                  type="file"
+                  accept=".csv,.txt"
+                  id="csvUpload"
+                  class="absolute inset-0 w-full h-full opacity-0 cursor-pointer z-10"
+                />
+                <div
+                  class="w-full py-2.5 px-3 text-sm font-medium text-gray-200 bg-[#0c0c0c] hover:bg-gray-700/70 border-2 border-[#121212] rounded-lg flex items-center justify-between transition-all duration-200"
+                >
+                  <span class="flex items-center truncate">
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      class="h-4 w-4 mr-2 text-[#fe2e00] flex-shrink-0"
+                      fill="none"
+                      viewBox="0 0 24 24"
+                      stroke="currentColor"
+                    >
+                      <path
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        stroke-width="2"
+                        d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12"
+                      />
+                    </svg>
+                    <span class="truncate">Select Name List</span>
+                  </span>
+                </div>
+              </div>
+            </div>
+
+            <!-- Custom Font Upload -->
+            <div class="group relative">
+              <label
+                for="fontUpload"
+                class="block text-xs font-medium text-gray-400 mb-2"
+                >CUSTOM FONT</label
+              >
+              <div class="relative flex items-center">
+                <input
+                  type="file"
+                  accept=".ttf,.otf"
+                  id="fontUpload"
+                  class="absolute inset-0 w-full h-full opacity-0 cursor-pointer z-10"
+                />
+                <div
+                  class="w-full py-2.5 px-3 text-sm font-medium text-gray-200 bg-[#0c0c0c] hover:bg-gray-700/70 border-2 border-[#121212] rounded-lg flex items-center justify-between transition-all duration-200"
+                >
+                  <span class="flex items-center truncate">
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      class="h-4 w-4 mr-2 text-[#fe2e00] flex-shrink-0"
+                      fill="none"
+                      viewBox="0 0 24 24"
+                      stroke="currentColor"
+                    >
+                      <path
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        stroke-width="2"
+                        d="M3 15a4 4 0 004 4h9a5 5 0 10-.1-9.999 5.002 5.002 0 10-9.78 2.096A4.001 4.001 0 003 15z"
+                      />
+                    </svg>
+                    <span class="truncate">Select Custom Font</span>
+                  </span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Style Controls with Modern Design -->
+          <div class="grid grid-cols-1 gap-4 mb-5">
+            <!-- Color Picker -->
+            <div>
+              <label class="block text-xs font-medium text-gray-400 mb-2"
+                >TEXT COLOR</label
+              >
+              <div class="flex items-center">
+                <input
+                  type="color"
+                  id="colorPicker"
+                  class="w-10 h-10 rounded-full cursor-pointer border-0 bg-transparent"
+                  style="display: block"
+                />
+                <div class="ml-3 text-xs text-gray-400">Pick color</div>
+              </div>
+            </div>
+
+            <!-- Font Size -->
+            <div>
+              <div class="flex justify-between">
+                <label class="block text-xs font-medium text-gray-400 mb-2"
+                  >FONT SIZE</label
+                >
+                <span class="text-xs text-gray-400" id="fontSizeValue"
+                  >20px</span
+                >
+              </div>
+              <input
+                type="range"
+                id="fontSize"
+                min="10"
+                max="100"
+                value="20"
+                class="w-full h-2 bg-gray-700 rounded-lg appearance-none cursor-pointer accent-indigo-500"
+                style="display: block"
+                oninput="document.getElementById('fontSizeValue').textContent = this.value + 'px'"
+              />
+            </div>
+          </div>
+
+          <!-- Action Buttons with Enhanced Design -->
+          <div class="grid grid-cols-2 gap-2 pt-4 border-t border-gray-700/50">
+            <button
+              class="px-2 py-2.5 text-sm text-gray-300 hover:text-white bg-transparent hover:bg-gray-800/70 border border-gray-700 rounded-lg transition-all duration-200 flex items-center justify-center space-x-1"
+              id="bck2"
+            >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                class="h-4 w-4"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  d="M10 19l-7-7m0 0l7-7m-7 7h18"
+                />
+              </svg>
+              <span>Back</span>
+            </button>
+
+            <button
+              class="px-2 py-2.5 text-sm bg-gradient-to-r from-indigo-600 to-indigo-700 hover:from-indigo-500 hover:to-indigo-600 rounded-lg text-white border border-indigo-600/50 transition-all duration-200 flex items-center justify-center space-x-1"
+              id="saveImages"
+            >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                class="h-4 w-4"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"
+                />
+              </svg>
+              <span>Download</span>
+            </button>
+
+            <button
+              class="px-2 py-2.5 text-sm bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-500 hover:to-blue-600 rounded-lg text-white border border-blue-600/50 transition-all duration-200 flex items-center justify-center space-x-1"
+              id="exportPDF"
+            >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                class="h-4 w-4"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  d="M7 21h10a2 2 0 002-2V9.414a1 1 0 00-.293-.707l-5.414-5.414A1 1 0 0012.586 3H7a2 2 0 00-2 2v14a2 2 0 002 2z"
+                />
+              </svg>
+              <span>PDF</span>
+            </button>
+
+            <button
+              class="px-2 py-2.5 text-sm bg-gradient-to-r from-emerald-600 to-emerald-700 hover:from-emerald-500 hover:to-emerald-600 rounded-lg text-white border border-emerald-600/50 transition-all duration-200 flex items-center justify-center space-x-1"
+              id="printButton"
+            >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                class="h-4 w-4"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  d="M17 17h2a2 2 0 002-2v-4a2 2 0 00-2-2H5a2 2 0 00-2 2v4a2 2 0 002 2h2m2 4h6a2 2 0 002-2v-4a2 2 0 00-2-2H9a2 2 0 00-2 2v4a2 2 0 002 2zm8-12V5a2 2 0 00-2-2H9a2 2 0 00-2 2v4h10z"
+                />
+              </svg>
+              <span>Print</span>
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Main Content Area -->
+      <div
+        class="flex-1 flex flex-col items-center justify-center p-4 lg:p-6 transition-all duration-300"
+      >
+        <!-- Preview Canvas Section -->
+        <div
+          class="w-full max-w-4xl p-5 lg:p-7 border-2 border-[#121212] rounded-2xl flex flex-col gap-6 items-center bg-[0c0c0c] backdrop-blur-sm"
+        >
+          <div class="w-full flex justify-between items-center">
+            <div class="text-sm text-gray-400 font-medium">Preview</div>
+          </div>
+          <div class="w-full h-[80vh] flex items-center justify-center">
+            <canvas
+              id="previewCanvas"
+              class="max-w-full max-h-full rounded-lg border border-gray-800/50"
+            ></canvas>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script src="script.js"></script>
+    <script>
+      lucide.createIcons();
+    </script>
+  </body>
 </html>
