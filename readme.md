@@ -1,14 +1,5 @@
 <img src="https://github.com/theajmalrazaq/certedit/raw/master/assest/ertedit.svg" width="200px"/>
 
-# CertEdit
-
-# Hacktoberfest Todos Suggestions
-
-1. Drag-and-Drop Functionality
-2. Advanced Font Customization
-3. Export as PDF
-4. Print Certificates Directly
-
 Welcome to CertEdit, the only certificate generator you'll ever need because, let's face it, who has time to handwrite names on certificates? Not you, that's for sure. CertEdit is a gloriously simple web app built with good old vanilla JavaScript and HTML, because why make things easy when you can do it the hard way?
 
 ## Features
