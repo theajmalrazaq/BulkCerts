@@ -12,8 +12,22 @@
   </head>
 
   <body
-    class="h-screen relative flex flex-col overflow-hidden bg-[#0c0c0c] dark:text-white"
+    class="h-screen relative flex flex-col overflow-hidden bg-[#0c0c0c]  dark:text-white"
   >
+  <div>
+    <div class="flex flex-col h-screen justify-center gap-5 items-center px-4 py-3 sm:hidden"> 
+       <div class="flex flex-col gap-4 items-center">
+          <img
+            src="assest/pc.svg"
+            alt=""
+            class="logo h-40"
+            id="favicon2"
+          />
+        </div>
+      <h1>Switch to Desktop for Better Experience</h1>
+    </div>
+  </div>
+  <div class="hidden sm:block"> 
     <img
       alt="Navbar blur"
       fetchpriority="high"
@@ -389,6 +403,8 @@
       </div>
     </div>
 
+  </div>
+  
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
     <script src="script.js"></script>
     <script>
