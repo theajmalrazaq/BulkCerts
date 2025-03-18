@@ -61,7 +61,7 @@ let canvas, ctx, previewCanvas, previewCtx; // Canvas elements and contexts
 let startX, startY, endX, endY; // Coordinates for area selection
 let isDrawing = true; // Drawing state flag
 let customFont = null; // Custom font for text
-let customColor = "#ff0000"; // Text color (default: red)
+let customColor = "#ffffff"; // Text color (default: red)
 let fontSize = 40; // Text font size (default: 30px)
 let isDragging = false; // Text dragging state flag
 let textX, textY; // Text position coordinates
