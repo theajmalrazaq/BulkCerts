@@ -4,7 +4,7 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <script src="https://unpkg.com/@tailwindcss/browser@4"></script>
-    <link rel="icon" type="image/x-icon" href="assest/favicon.ico" />
+    <link rel="icon" type="image/x-icon" href="assest/favicon.png" />
     <script src="https://unpkg.com/lucide@latest"></script>
     <meta name="theme-color" content="#0d0d0d" />
     <link rel="stylesheet" href="style.css" />
@@ -65,79 +65,107 @@
     />
    
     <div id="home" class="mx-4">
-      <div
-        class="flex justify-center items-center h-screen flex-col gap-10 overflow-hidden"
-      >
-        <div class="flex flex-col gap-4 items-center">
-          <img
-            src="assest/ertedit.svg"
-            alt=""
-            class="logo h-40"
-            id="favicon2"
-          />
-          <h1 class="uk-margin-small-top text-center sm:text-base text-sm">
-            Batch it. Brand it. Boom! 🎉 CertEdit lets you create bulk
-            certificates in seconds—zero hassle, all flex.
-          </h1>
+  <div class="flex justify-center items-center h-screen flex-col gap-8 overflow-hidden">
+    <div class="flex flex-col gap-4 items-center">
+      <img src="assest/ertedit.svg" alt="CertEdit Logo" class="logo h-40" id="favicon2" />
+      <h1 class="uk-margin-small-top text-center sm:text-2xl text-lg font-bold">
+        CertEdit - Bulk Certificate Generator
+      </h1>
+      <p class="text-center sm:text-base text-sm max-w-2xl">
+       Create and send professional certificates in bulk—zero hassle, all flex.
+      </p>
+    </div>
+    
+    <!-- Feature highlights -->
+    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 max-w-3xl w-full px-4">
+      <div class="bg-[#0c0c0c] border-2 border-[#121212] rounded-2xl p-4 flex items-start">
+        <div class="bg-[#FF2E00] rounded-full p-2 mr-3">
+          <i data-lucide="file" class="h-5 w-5 text-white"></i>
         </div>
-        <button
-          class="group bg-[#FF2E00] rounded-full px-5 py-4 flex justify-center items-center text-white font-medium gap-2 cursor-pointer hover:bg-gradient-to-b"
-          id="generate"
-        >
-          <span class="ml-2">Generate Certificates</span>
-          <i
-            data-lucide="arrow-right"
-            class="h-5 mt-1 transition-transform duration-300 group-hover:translate-x-1"
-          ></i>
-        </button>
+        <div>
+          <h3 class="font-medium">Bulk Generation</h3>
+          <p class="text-sm text-gray-600">Create hundreds of certificates in seconds</p>
+        </div>
+      </div>
+      <div class="bg-[#0c0c0c] border-2 border-[#121212] rounded-2xl p-4 flex items-start">
+        <div class="bg-[#FF2E00] rounded-full p-2 mr-3">
+          <i data-lucide="mail" class="h-5 w-5 text-white"></i>
+        </div>
+        <div>
+          <h3 class="font-medium">Email Delivery</h3>
+          <p class="text-sm text-gray-600">Automatically send certificates to recipients</p>
+        </div>
       </div>
     </div>
+    
+    <div class="flex flex-col sm:flex-row gap-4">
+      <button
+        class="group bg-[#FF2E00] rounded-full px-5 py-3 flex justify-center items-center text-white font-medium gap-2 cursor-pointer hover:bg-gradient-to-b from-[#FF2E00] to-[#D92500]"
+        id="generate-send"
+      >
+        <i data-lucide="file" class="h-5"></i>
+        <span>Generate & Send Certificates</span>
+        <i data-lucide="arrow-right" class="h-5 transition-transform duration-300 group-hover:translate-x-1"></i>
+      </button>
+      
+      <button
+        class="group border-2 border-[#FF2E00] text-[#FF2E00] rounded-full px-5 py-3 flex justify-center items-center font-medium gap-2 cursor-pointer hover:bg-gray-50"
+        id="generate"
+      >
+        <i data-lucide="file" class="h-5"></i>
+        <span>Generate Only</span>
+      </button>
+    </div>
+  </div>
+</div>
 
-    <div
-      id="st-1"
-      class="flex flex-col justify-center items-center gap-10 h-screen p-3"
-      style="display: none"
-    >
-      <h3
-        class="bg-black flex justify-center items-center px-6 py-2 rounded-full border border-white/10 font-mono"
-      >
-        Step 1
-      </h3>
-      <div class="flex flex-col justify-center items-center">
-        <p class="sm:text-normal text-sm text-center" id="Upload">
-          Upload Certificate on which you want to add names
-        </p>
-      </div>
-      <div
-        class="h-fit bg-black justify-between px-8 py-8 rounded-3xl flex flex-col gap-10 items-center border-2 border-white/10"
-      >
+     <div
+  id="st-1"
+  class="flex flex-col justify-center items-center gap-10 h-screen p-5 "
+  style="display: none"
+>
+  <div class="flex flex-col justify-center items-center gap-3">
+    <p class="sm:text-2xl text-xl font-bold text-center" id="Upload">
+      Upload <span class="text-[#fe2e00]">Certificate</span> Image 
+    </p>
+    <p class="text-sm text-gray-300 max-w-md text-center">
+      Choose a high-quality image to use as your certificate template
+    </p>
+  </div>
+  
+  <div
+    class="h-fit bg-black/80 backdrop-blur-sm px-8 py-10 rounded-3xl flex flex-col gap-10 items-center border-2 border-white/10 shadow-lg w-full max-w-md"
+  >
         <div
-          class="w-60 h-35 border-2 border-white/10 text-center flex justify-center items-center rounded-2xl"
-          uk-form-custom=""
+      class="w-full aspect-video border-2 border-dashed border-white/30 text-center flex flex-col justify-center items-center rounded-xl hover:border-[#fe2e00]/70 transition-all duration-300"
+      uk-form-custom=""
+    >
+      <label for="imageUpload" class="w-full h-full flex flex-col items-center justify-center">
+        <input
+          type="file"
+          accept="image/*"
+          id="imageUpload"
+          style="display: none"
+        />
+            <button 
+          class="flex flex-col gap-5 justify-center items-center p-6 w-full cursor-pointer"
+          id="selectImageButton"
         >
-          <label for="imageUpload">
-            <input
-              type="file"
-              accept="image/*"
-              id="imageUpload"
-              style="display: none"
-            />
-            <button
-              class="flex flex-col gap-3 justify-center items-center cursor-pointer"
-              type="button"
-              tabindex="-1"
-              id="selectImageButton"
-              style="cursor: pointer"
-            >
-              <i data-lucide="upload"></i>
-              Select Certificate Image
+          <div class="p-3 bg-[#fe2e00]/10 rounded-full">
+            <i data-lucide="upload" class="h-8 w-8 text-[#fe2e00]"></i>
+          </div>
+          <div class="space-y-2">
+            <p class="font-medium text-white">Drag & drop or click to browse</p>
+            <p class="text-xs text-gray-400">Recommended size: 1920×1080px</p>
+            <p class="text-xs text-gray-400">Supports jpg, png formats</p>
+          </div>
             </button>
             <div id="view" class="hidden h-24 relative w-24 rounded-full"></div>
           </label>
         </div>
 
         <div
-          class="w-fit p-4 border-2 border-white/10 text-center flex justify-around items-center rounded-2xl gap-10"
+          class="w-full p-4  bg-white/5 text-center flex justify-between items-center rounded-2xl gap-10"
         >
           <button
             class="bg-[#303030] px-4 py-2 rounded-lg cursor-pointer"
@@ -146,10 +174,11 @@
             Back
           </button>
           <button
-            class="bg-[#ff2e00] px-4 py-2 rounded-lg cursor-pointer"
+            class="bg-[#ff2e00] px-4 py-2 rounded-lg cursor-pointer flex justify-center items-center gap-2"
             id="confirmArea"
           >
-            Confirm
+          Confirm 
+          <i data-lucide="arrow-right" class="h-5"></i>
           </button>
         </div>
       </div>

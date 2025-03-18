@@ -33,6 +33,7 @@ document.getElementById("generate").addEventListener("click", () => {
 document.getElementById("bck1").addEventListener("click", () => {
   document.getElementById("home").style.display = "";
   document.getElementById("st-1").style.display = "none";
+  document.getElementById("navbar").classList.remove("hidden");
 });
 
 // Back button from step 2 to step 1
@@ -61,7 +62,7 @@ let startX, startY, endX, endY; // Coordinates for area selection
 let isDrawing = true; // Drawing state flag
 let customFont = null; // Custom font for text
 let customColor = "#ff0000"; // Text color (default: red)
-let fontSize = 30; // Text font size (default: 30px)
+let fontSize = 40; // Text font size (default: 30px)
 let isDragging = false; // Text dragging state flag
 let textX, textY; // Text position coordinates
 let rectX, rectY; // Rectangle position coordinates
@@ -97,11 +98,12 @@ handleview = () => {
 
   // Create and configure image preview element
   let viewimage = document.createElement("img");
+  viewimage.className = "w-full h-full object-cover rounded-lg"; 
   viewimage.src = uploadedImage.src;
 
   // Add discard button to the view
   document.getElementById("view").innerHTML =
-    "<button id='discard' class='absolute -top-2 -right-2 p-1 rounded-full bg-white cursor-pointer'><i data-lucide='x' class='h-5 w-5 text-black'onclick='handleDiscard()'></i></button>";
+    "<button id='discard' class='absolute -top-2 -right-2 p-1 rounded-full bg-[#1B0702]  cursor-pointer'><i data-lucide='x' class='h-5 w-5 text-[#fe2e00]'onclick='handleDiscard()'></i></button>";
   console.log("handleImageUpload function called");
 
   // Show the view container and append the image
@@ -138,6 +140,15 @@ function setUpCanvas() {
   previewCanvas.width = uploadedImage.width;
   previewCanvas.height = uploadedImage.height;
   previewCtx = previewCanvas.getContext("2d");
+  
+  // Set up the main canvas for saving/exporting
+  canvas = document.createElement("canvas"); // Create an off-screen canvas
+  canvas.width = uploadedImage.width;
+  canvas.height = uploadedImage.height;
+  ctx = canvas.getContext("2d");
+  
+  // Draw the initial image on the preview canvas
+  previewCtx.drawImage(uploadedImage, 0, 0);
 }
 
 /**
@@ -151,8 +162,6 @@ handlepop = () => {
 };
 
 function confirmArea() {
-  document.getElementById("navbar").classList.add("hidden");
-  // Validate that an image is uploaded
   if (document.getElementById("imageUpload").value == "") {
     let notification = document.createElement("div");
     notification.className =
@@ -172,6 +181,7 @@ function confirmArea() {
     return;
   }
 
+  document.getElementById("navbar").classList.add("hidden");
   // Advance to step 2
   document.getElementById("st-1").style.display = "none";
   document.getElementById("st-2").style.display = "flex";
@@ -269,8 +279,8 @@ function showPreview() {
   // Draw the preview text (first name in the array)
   previewCtx.fillText(
     selectedNames[0],
-    textX || rectX + 10,
-    textY || rectY + 30,
+    textX || rectX + 50,
+    textY || rectY + 500,
   );
 
   // Add mouse and touch event listeners for text positioning
@@ -367,10 +377,21 @@ function stopDragTouch(event) {
 function saveImages() {
   // Validate that names are loaded
   if (document.getElementById("csvUpload").value == "") {
-    UIkit.notification({
-      message: "Upload Name list CSV/TXT",
-      status: "danger",
-    });
+   let notification = document.createElement("div");
+    notification.className =
+      "fixed bottom-4 right-4 bg-black border border-white/10 text-white px-6 py-3 rounded-lg shadow-lg transform transition-all duration-300 translate-y-0 z-50 flex items-center gap-2";
+    notification.innerHTML = `
+    <i data-lucide="alert-circle" class="h-5 w-5"></i>
+    <span>Please upload Name List First</span>
+  `;
+    document.body.appendChild(notification);
+    lucide.createIcons();
+    setTimeout(() => {
+      notification.classList.add("translate-y-full", "opacity-0");
+      setTimeout(() => {
+        notification.remove();
+      }, 300);
+    }, 3000);
     return;
   }
 
