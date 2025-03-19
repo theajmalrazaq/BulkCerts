@@ -23,31 +23,15 @@ document.getElementById("saveImages").addEventListener("click", saveImages);
 
 // ===== NAVIGATION BUTTON HANDLERS =====
 
-// Start generation process - move from home to step 1
-document.getElementById("generate").addEventListener("click", () => {
-  document.getElementById("home").style.display = "none";
-  document.getElementById("st-1").style.display = "flex";
-});
-
-// Back button from step 1 to home
-document.getElementById("bck1").addEventListener("click", () => {
-  document.getElementById("home").style.display = "";
-  document.getElementById("st-1").style.display = "none";
-  document.getElementById("navbar").classList.remove("hidden");
-});
 
 // Back button from step 2 to step 1
 document.getElementById("bck2").addEventListener("click", () => {
+  document.getElementById("navbar").classList.remove("hidden");
   document.getElementById("st-1").style.display = "flex";
   document.getElementById("st-2").style.display = "none";
 });
 
-// Reset button - go back to home
-document.getElementById("reset").addEventListener("click", () => {
-  document.getElementById("home").style.display = "";
-  document.getElementById("st-1").style.display = "none";
-  document.getElementById("st-2").style.display = "none";
-});
+
 
 // ===== GLOBAL VARIABLES =====
 
