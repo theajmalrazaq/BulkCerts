@@ -223,8 +223,8 @@ export default function GenerateOnly({ navigate }){
 
   return (
     <div className="min-h-screen bg-background text-foreground">
-      <div className="max-w-6xl mx-auto px-6 py-12">
-        <header className="flex items-center justify-between mb-10">
+      <div className=" mx-auto px-6 py-12">
+        <header className="flex max-w-6xl mx-auto items-center justify-between mb-10">
           <div className="flex items-center gap-4">
             <img src="/Public/assest/logo.svg" alt="logo" className="h-9" />
             <h1 className="text-xl font-semibold">BulkCerts</h1>
@@ -235,14 +235,32 @@ export default function GenerateOnly({ navigate }){
           </div>
         </header>
 
-        <section className="grid grid-cols-1 lg:grid-cols-2 gap-10 items-start">
-          <div>
-            <Card>
+  <section className="grid grid-cols-1 md:grid-cols-4 gap-6 items-start">
+
+
+
+
+
+ 
+
+
+
+
+
+
+
+
+
+
+
+          {/* Left card - half of editing controls */}
+          <div className="h-full">
+            <Card className="h-full flex flex-col">
               <CardHeader>
-                <CardTitle>Generate Certificates</CardTitle>
-                <CardDescription className="mt-1">Upload a certificate template and a CSV of names, then customize text placement and export.</CardDescription>
+                <CardTitle>Template & Names</CardTitle>
+                <CardDescription className="mt-1">Upload template and list of names. Basic preview settings.</CardDescription>
               </CardHeader>
-              <CardContent>
+              <CardContent className="flex-1">
                 <div className="space-y-4">
                   <div>
                     <label className="block text-sm text-muted-foreground">Certificate Template</label>
@@ -254,11 +272,6 @@ export default function GenerateOnly({ navigate }){
                     <label className="block text-sm text-muted-foreground">Names (CSV / TXT)</label>
                     <Input type="file" accept=".csv,.txt" onChange={handleCSV} />
                     <div className="text-xs text-muted-foreground mt-1">First column or each line will be used as the name.</div>
-                  </div>
-
-                  <div className="flex gap-2">
-                    <Button className="flex-1" onClick={saveImages} disabled={saving}>{saving ? 'Saving…' : 'Download All'}</Button>
-                    <Button variant="outline" onClick={exportAsPDF}>Export PDF</Button>
                   </div>
 
                   <div className="border-t pt-4">
@@ -278,34 +291,6 @@ export default function GenerateOnly({ navigate }){
                           <option>Verdana</option>
                         </select>
                       </div>
-
-                      <div className="flex gap-2 items-center">
-                        <div className="flex-1">
-                          <label className="block text-sm text-muted-foreground">Font Size</label>
-                          <Slider min={10} max={120} value={[fontSize]} onValueChange={(val) => setFontSize(Number(val?.[0] ?? fontSize))} />
-                          <div className="text-sm text-muted-foreground mt-1">{fontSize}px</div>
-                        </div>
-                        <div className="w-24">
-                          <label className="block text-sm text-muted-foreground">Color</label>
-                          <input type="color" value={color} onChange={e=>setColor(e.target.value)} className="w-full h-8 p-0 border rounded" />
-                        </div>
-                      </div>
-
-                      <div className="flex items-center gap-2">
-                        <button className={`px-3 py-1 rounded border ${bold ? 'bg-muted' : 'bg-background'}`} onClick={()=>setBold(b=>!b)}>{bold ? 'Bold ✓' : 'Bold'}</button>
-                        <button className={`px-3 py-1 rounded border ${italic ? 'bg-muted' : 'bg-background'}`} onClick={()=>setItalic(i=>!i)}>{italic ? 'Italic ✓' : 'Italic'}</button>
-                      </div>
-
-                      <div className="grid grid-cols-2 gap-3">
-                        <div>
-                          <label className="block text-sm text-muted-foreground">Text X</label>
-                          <Input type="number" value={textX} onChange={e=>setTextX(Number(e.target.value))} />
-                        </div>
-                        <div>
-                          <label className="block text-sm text-muted-foreground">Text Y</label>
-                          <Input type="number" value={textY} onChange={e=>setTextY(Number(e.target.value))} />
-                        </div>
-                      </div>
                     </div>
                   </div>
                 </div>
@@ -316,9 +301,15 @@ export default function GenerateOnly({ navigate }){
             </Card>
           </div>
 
-          <div>
-            <Card>
-              <CardContent>
+
+
+
+
+
+          {/* Center preview card */}
+          <div className="h-full md:col-span-2">
+            <Card className="h-full flex flex-col">
+              <CardContent className="flex-1">
                 <div ref={wrapperRef} className="mb-4 overflow-auto flex items-center justify-center">
                   <canvas
                     ref={previewRef}
@@ -345,11 +336,82 @@ export default function GenerateOnly({ navigate }){
                     <button className="px-3 py-1 text-sm rounded border bg-background hover:bg-muted" onClick={()=> setFontSize(s=>Math.max(10,s-2))}>A-</button>
                   </div>
 
-               
                 </div>
               </CardContent>
             </Card>
           </div>
+
+
+
+
+
+
+          {/* Right card - remaining editing controls and export */}
+          <div className="h-full">
+            <Card className="h-full flex flex-col">
+              <CardHeader>
+                <CardTitle>Text & Export</CardTitle>
+                <CardDescription className="mt-1">Font sizing, color, alignment and final export options.</CardDescription>
+              </CardHeader>
+              <CardContent className="flex-1">
+                <div className="space-y-4">
+                  <div className="flex gap-2 items-center">
+                    <div className="flex-1">
+                      <label className="block text-sm text-muted-foreground">Font Size</label>
+                      <Slider min={10} max={120} value={[fontSize]} onValueChange={(val) => setFontSize(Number(val?.[0] ?? fontSize))} />
+                      <div className="text-sm text-muted-foreground mt-1">{fontSize}px</div>
+                    </div>
+                    <div className="w-24">
+                      <label className="block text-sm text-muted-foreground">Color</label>
+                      <input type="color" value={color} onChange={e=>setColor(e.target.value)} className="w-full h-8 p-0 border rounded" />
+                    </div>
+                  </div>
+
+                  <div className="flex items-center gap-2">
+                    <button className={`px-3 py-1 rounded border ${bold ? 'bg-muted' : 'bg-background'}`} onClick={()=>setBold(b=>!b)}>{bold ? 'Bold ✓' : 'Bold'}</button>
+                    <button className={`px-3 py-1 rounded border ${italic ? 'bg-muted' : 'bg-background'}`} onClick={()=>setItalic(i=>!i)}>{italic ? 'Italic ✓' : 'Italic'}</button>
+                  </div>
+
+                  <div className="grid grid-cols-2 gap-3">
+                    <div>
+                      <label className="block text-sm text-muted-foreground">Text X</label>
+                      <Input type="number" value={textX} onChange={e=>setTextX(Number(e.target.value))} />
+                    </div>
+                    <div>
+                      <label className="block text-sm text-muted-foreground">Text Y</label>
+                      <Input type="number" value={textY} onChange={e=>setTextY(Number(e.target.value))} />
+                    </div>
+                  </div>
+
+                  <div className="flex items-center justify-between">
+                    <div className="flex items-center gap-2">
+                      <label className="text-sm text-muted-foreground">Align</label>
+                      <div className="flex gap-2">
+                        <button className="px-3 py-1 text-sm rounded border bg-background hover:bg-muted" onClick={()=>{ setTextAlign('left'); if(uploadedImage) setTextX(50) }}>Left</button>
+                        <button className="px-3 py-1 text-sm rounded border bg-background hover:bg-muted" onClick={()=>{ setTextAlign('center'); if(uploadedImage) setTextX(uploadedImage.width/2) }}>Center</button>
+                        <button className="px-3 py-1 text-sm rounded border bg-background hover:bg-muted" onClick={()=>{ setTextAlign('right'); if(uploadedImage) setTextX(uploadedImage.width - 50) }}>Right</button>
+                      </div>
+                    </div>
+
+                    <div className="flex items-center gap-2">
+                      <label className="text-sm text-muted-foreground">Size</label>
+                      <button className="px-3 py-1 text-sm rounded border bg-background hover:bg-muted" onClick={()=> setFontSize(s=>s+2)}>A+</button>
+                      <button className="px-3 py-1 text-sm rounded border bg-background hover:bg-muted" onClick={()=> setFontSize(s=>Math.max(10,s-2))}>A-</button>
+                    </div>
+                  </div>
+
+                  <div className="flex gap-2">
+                    <Button className="flex-1" onClick={saveImages} disabled={saving}>{saving ? 'Saving…' : 'Download All'}</Button>
+                    <Button variant="outline" onClick={exportAsPDF}>Export PDF</Button>
+                  </div>
+                </div>
+              </CardContent>
+            </Card>
+          </div>
+
+
+
+       
         </section>
       </div>
     </div>
