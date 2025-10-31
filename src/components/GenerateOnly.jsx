@@ -16,6 +16,7 @@ export default function GenerateOnly({ navigate }){
   const [bold, setBold] = useState(false)
   const [italic, setItalic] = useState(false)
   const [textAlign, setTextAlign] = useState('left')
+  const [step, setStep] = useState(1)
 
   useEffect(()=>{
     if(!uploadedImage) return
@@ -150,27 +151,47 @@ export default function GenerateOnly({ navigate }){
           <aside className="w-72">
             <div className="mb-4 flex items-center justify-between">
               <div className="text-lg font-semibold">Generate Only</div>
-              <Button variant="ghost" onClick={() => navigate && navigate('home')}>Back</Button>
+              <Button variant="ghost" onClick={() => { if(step === 1){ navigate && navigate('home') } else { setStep(1) } }}>
+                {step === 1 ? 'Back' : 'Back'}
+              </Button>
             </div>
 
-            <div className="space-y-4">
-              <div>
-                <Input type="file" label="Upload Certificate Image" accept="image/*" onChange={handleImage} />
-              </div>
-              <div>
-                <Input type="file" label="Upload Names CSV" accept=".csv,.txt" onChange={handleCSV} />
-              </div>
+            {step === 1 ? (
+              <div className="space-y-4">
+                <div>
+                  <Input type="file" label="Upload Certificate Image" accept="image/*" onChange={handleImage} />
+                </div>
+                <div>
+                  <Input type="file" label="Upload Names CSV" accept=".csv,.txt" onChange={handleCSV} />
+                </div>
 
-              <div className="flex gap-2">
-                <Button className="flex-1" onClick={saveImages}>Download</Button>
-                <Button variant="ghost" className="w-20" onClick={exportAsPDF}>PDF</Button>
-                <Button variant="ghost" className="w-20" onClick={printCertificates}>Print</Button>
+                <div className="flex gap-2">
+                  <Button className="flex-1" onClick={() => {
+                    if(!uploadedImage){ window.notify && window.notify('Please upload an image first','alert-circle'); return }
+                    if(!names || !names.length){ window.notify && window.notify('Please upload a names file','alert-circle'); return }
+                    setStep(2)
+                  }}>Next</Button>
+                  <Button variant="ghost" className="w-20" onClick={() => navigate && navigate('home')}>Cancel</Button>
+                </div>
               </div>
-            </div>
+            ) : (
+              <div className="space-y-4">
+                <div className="text-sm text-muted-foreground">Uploaded Image: {uploadedImage ? 'Yes' : 'No'} • Names: {names?.length || 0}</div>
+                <div className="flex gap-2">
+                  <Button className="flex-1" onClick={saveImages}>Download</Button>
+                  <Button variant="ghost" className="w-20" onClick={exportAsPDF}>PDF</Button>
+                  <Button variant="ghost" className="w-20" onClick={printCertificates}>Print</Button>
+                </div>
+                <div>
+                  <Button variant="ghost" onClick={() => setStep(1)}>Edit Uploads</Button>
+                </div>
+              </div>
+            )}
           </aside>
 
-          <main className="flex-1">
-            <div className="rounded-2xl border p-4 bg-card flex gap-4 items-stretch">
+          {step === 2 && (
+            <main className="flex-1">
+              <div className="rounded-2xl border p-4 bg-card flex gap-4 items-stretch">
               <div className="flex-1 flex flex-col">
                 <div className="mb-4 overflow-auto flex items-center justify-center">
                   <canvas
@@ -260,6 +281,7 @@ export default function GenerateOnly({ navigate }){
               </aside>
             </div>
           </main>
+          )}
         </div>
       </div>
     </div>
