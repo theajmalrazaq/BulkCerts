@@ -1,5 +1,5 @@
 {
-  "name": "certedit",
+  "name": "bulkcerts",
   "version": "1.0.0",
   "private": true,
   "type": "module",
@@ -12,35 +12,48 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@radix-ui/react-accordion": "^1.2.12",
+    "@radix-ui/react-checkbox": "^1.3.3",
+    "@radix-ui/react-dialog": "^1.1.15",
+    "@radix-ui/react-popover": "^1.1.15",
+    "@radix-ui/react-select": "^2.2.6",
+    "@radix-ui/react-slider": "^1.3.6",
+    "@radix-ui/react-slot": "^1.2.3",
+    "@radix-ui/react-tabs": "^1.1.13",
+    "@radix-ui/react-tooltip": "^1.2.8",
     "@tailwindcss/vite": "^4.1.16",
     "@vitejs/plugin-react": "^5.1.0",
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
+    "cmdk": "^1.1.1",
     "cors": "^2.8.5",
     "express": "^5.1.0",
     "lucide-react": "^0.548.0",
+    "next-themes": "^0.4.6",
     "nodemailer": "^6.9.4",
     "react": "^19.2.0",
     "react-dom": "^19.2.0",
+    "sonner": "^2.0.7",
     "tailwind-merge": "^3.3.1",
     "tailwindcss": "^4.1.16",
     "vite": "^7.1.12"
   },
-  "description": "<img src=\"https://github.com/theajmalrazaq/certedit/raw/master/assest/ertedit.svg\" width=\"200px\"/>",
+  "description": "<img src=\"https://github.com/theajmalrazaq/bulkcerts/raw/master/assest/ertedit.svg\" width=\"200px\"/>",
   "main": "server-test.js",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/theajmalrazaq/CertEdit.git"
+    "url": "git+https://github.com/theajmalrazaq/BulkCerts.git"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/theajmalrazaq/CertEdit/issues"
+    "url": "https://github.com/theajmalrazaq/BulkCerts/issues"
   },
-  "homepage": "https://github.com/theajmalrazaq/CertEdit#readme",
+  "homepage": "https://github.com/theajmalrazaq/BulkCerts#readme",
   "devDependencies": {
     "@types/node": "^24.9.2",
+    "shadcn": "^3.5.0",
     "tw-animate-css": "^1.4.0"
   }
 }

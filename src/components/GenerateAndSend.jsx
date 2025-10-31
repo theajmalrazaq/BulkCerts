@@ -1,5 +1,6 @@
 import React, { useRef, useState, useEffect } from 'react'
-import Button from './ui/Button'
+import { Button } from './ui/button'
+import { Input } from './ui/input'
 
 export default function GenerateAndSend(){
   const previewRef = useRef(null)
@@ -96,7 +97,7 @@ export default function GenerateAndSend(){
 
 
   return (
-    <div className="min-h-screen p-6 bg-[#0c0c0c] text-white">
+    <div className="min-h-screen p-6 bg-background text-foreground">
       <div className="max-w-6xl mx-auto flex gap-6">
         <div className="w-80">
           <div className="mb-4">
@@ -109,16 +110,16 @@ export default function GenerateAndSend(){
           </div>
 
           <div className="mb-4">
-            <label className="block text-sm text-gray-400">To (email)</label>
-            <input className="w-full p-2 rounded bg-[#111] border border-[#222]" value={emailTo} onChange={e=>setEmailTo(e.target.value)} />
+            <label className="block text-sm text-slate-400">To (email)</label>
+            <Input value={emailTo} onChange={e=>setEmailTo(e.target.value)} />
           </div>
           <div className="mb-4">
-            <label className="block text-sm text-gray-400">Subject</label>
-            <input className="w-full p-2 rounded bg-[#111] border border-[#222]" value={emailSubject} onChange={e=>setEmailSubject(e.target.value)} />
+            <label className="block text-sm text-slate-400">Subject</label>
+            <Input value={emailSubject} onChange={e=>setEmailSubject(e.target.value)} />
           </div>
           <div className="mb-4">
-            <label className="block text-sm text-gray-400">Message</label>
-            <textarea className="w-full p-2 rounded bg-[#111] border border-[#222]" value={emailText} onChange={e=>setEmailText(e.target.value)} />
+            <label className="block text-sm text-muted-foreground">Message</label>
+            <textarea className="w-full px-3 py-2 rounded-md bg-transparent border border-input text-foreground placeholder:text-muted-foreground" value={emailText} onChange={e=>setEmailText(e.target.value)} />
           </div>
 
           <div className="flex gap-2">
@@ -127,7 +128,7 @@ export default function GenerateAndSend(){
         </div>
 
         <div className="flex-1">
-          <div className="border-2 border-[#121212] rounded-2xl p-4">
+          <div className="rounded-2xl border p-4 bg-card">
             <canvas ref={previewRef} className="w-full max-h-[70vh]" />
           </div>
         </div>

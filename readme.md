@@ -1,6 +1,6 @@
-<img src="https://github.com/theajmalrazaq/certedit/raw/master/assest/ertedit.svg" width="200px"/>
+<img src="https://github.com/theajmalrazaq/bulkcerts/raw/master/assest/ertedit.svg" width="200px"/>
 
-Welcome to CertEdit, the only certificate generator you'll ever need because, let's face it, who has time to handwrite names on certificates? Not you, that's for sure. CertEdit is a gloriously simple web app built with good old vanilla JavaScript and HTML, because why make things easy when you can do it the hard way?
+Welcome to BulkCerts, the only certificate generator you'll ever need because, let's face it, who has time to handwrite names on certificates? Not you, that's for sure. BulkCerts is a gloriously simple web app built with good old vanilla JavaScript and HTML, because why make things easy when you can do it the hard way?
 
 ## Features
 
@@ -21,15 +21,15 @@ Welcome to CertEdit, the only certificate generator you'll ever need because, le
 
 ## Demo
 
-Check out the live demo of CertEdit [here](https://theajmalrazaq.github.io/certedit/#). Marvel at its mediocrity.
+Check out the live demo of BulkCerts [here](https://theajmalrazaq.github.io/bulkcerts/#). Marvel at its mediocrity.
 
 ## Installation
 
 To start your journey into the world of certificate generation, clone the repository and open the `index.html` file in your web browser. We hope you like command lines.
 
 ```bash
-git clone https://github.com/theajmalrazaq/certedit.git
-cd certedit
+git clone https://github.com/theajmalrazaq/bulkcerts.git
+cd bulkcerts
 ```
 
 ## Usage
@@ -75,7 +75,7 @@ This project is licensed under the MIT License. See the [LICENSE](LICENSE) file 
 
 ---
 
-Thank you for using CertEdit! We hope it makes your certificate generation process marginally less painful and maybe even slightly enjoyable. Probably not, though.
+Thank you for using BulkCerts! We hope it makes your certificate generation process marginally less painful and maybe even slightly enjoyable. Probably not, though.
 
 ```
 

@@ -1,4 +1,6 @@
 import React, { useEffect, useState } from 'react'
+import { Input } from './ui/input'
+import { Button } from './ui/button'
 
 export default function EmailModal(){
   const [open, setOpen] = useState(false)
@@ -44,15 +46,15 @@ export default function EmailModal(){
 
   return (
     <div className="fixed inset-0 bg-black/60 z-50 flex items-center justify-center">
-      <div className="bg-[#0c0c0c] border-2 border-[#121212] rounded-md p-6 w-full max-w-md">
+      <div className="bg-card border rounded-md p-6 w-full max-w-md">
         <h3 className="text-lg font-medium mb-3">Send Email</h3>
         <div className="space-y-3">
-          <input value={to} onChange={e=>setTo(e.target.value)} placeholder="To (email)" className="w-full p-2 rounded bg-[#111] border border-[#222] text-white" />
-          <input value={subject} onChange={e=>setSubject(e.target.value)} placeholder="Subject" className="w-full p-2 rounded bg-[#111] border border-[#222] text-white" />
-          <textarea value={text} onChange={e=>setText(e.target.value)} rows={4} className="w-full p-2 rounded bg-[#111] border border-[#222] text-white" placeholder="Message" />
+          <Input value={to} onChange={e=>setTo(e.target.value)} placeholder="To (email)" />
+          <Input value={subject} onChange={e=>setSubject(e.target.value)} placeholder="Subject" />
+          <textarea value={text} onChange={e=>setText(e.target.value)} rows={4} className="w-full px-3 py-2 rounded-md bg-transparent border border-input text-foreground placeholder:text-muted-foreground" placeholder="Message" />
           <div className="flex justify-end gap-2 mt-2">
-            <button onClick={()=>setOpen(false)} className="px-3 py-2 bg-gray-700 rounded">Cancel</button>
-            <button onClick={handleSend} className="px-3 py-2 bg-[#fe2e00] rounded text-white">Send</button>
+            <Button variant="outline" onClick={()=>setOpen(false)}>Cancel</Button>
+            <Button onClick={handleSend}>Send</Button>
           </div>
         </div>
       </div>

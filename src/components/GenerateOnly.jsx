@@ -1,8 +1,10 @@
 import React, { useRef, useState, useEffect } from 'react'
-import Button from './ui/Button'
-import Input from './ui/Input'
+import { Button } from './ui/button'
+import ThemeToggle from './ThemeToggle'
+import { Slider } from './ui/slider'
+import {Input} from './ui/input'
 
-export default function GenerateOnly(){
+export default function GenerateOnly({ navigate }){
   const previewRef = useRef(null)
   const [uploadedImage, setUploadedImage] = useState(null)
   const [names, setNames] = useState(['Demo Name'])
@@ -106,37 +108,79 @@ export default function GenerateOnly(){
   }
 
   return (
-    <div className="min-h-screen p-6 bg-[#0c0c0c] text-white">
-      <div className="max-w-6xl mx-auto flex gap-6">
-        <div className="w-72">
-          <div className="mb-4">
-            <label className="block text-sm text-gray-400">Upload Certificate Image</label>
-            <input type="file" accept="image/*" onChange={handleImage} />
+    <div className="min-h-screen p-6 bg-background text-foreground">
+      <div className="max-w-6xl mx-auto px-6">
+        <header className="flex items-center justify-between py-6">
+          <div className="flex items-center gap-4">
+            <img src="/Public/assest/logo.svg" alt="logo" className="h-8" />
+            <h1 className="text-lg font-semibold">BulkCerts</h1>
           </div>
-          <div className="mb-4">
-            <label className="block text-sm text-gray-400">Upload Names CSV</label>
-            <input type="file" accept=".csv,.txt" onChange={handleCSV} />
+          <div className="flex items-center gap-4">
+            <a href="https://github.com/theajmalrazaq/BulkCerts" target="_blank" rel="noreferrer" className="text-sm text-muted-foreground">GitHub</a>
+            <ThemeToggle />
           </div>
-          <div className="mb-4">
-            <label className="block text-sm text-gray-400">Text Color</label>
-            <input type="color" value={color} onChange={e=>setColor(e.target.value)} />
-          </div>
-          <div className="mb-4">
-            <label className="block text-sm text-gray-400">Font Size</label>
-            <input type="range" min="10" max="120" value={fontSize} onChange={e=>setFontSize(Number(e.target.value))} />
-            <div className="text-sm text-gray-400">{fontSize}px</div>
-          </div>
-          <div className="flex gap-2">
-            <Button onClick={saveImages}>Download</Button>
-            <Button variant="ghost" onClick={exportAsPDF}>PDF</Button>
-            <Button variant="ghost" onClick={printCertificates}>Print</Button>
-          </div>
-        </div>
+        </header>
 
-        <div className="flex-1">
-          <div className="border-2 border-[#121212] rounded-2xl p-4">
-            <canvas ref={previewRef} className="w-full max-h-[70vh]" />
-          </div>
+        <div className="flex gap-6">
+          <aside className="w-72">
+            <div className="mb-4 flex items-center justify-between">
+              <div className="text-lg font-semibold">Generate Only</div>
+              <Button variant="ghost" onClick={() => navigate && navigate('home')}>Back</Button>
+            </div>
+
+            <div className="mb-4">
+              <Input label="Upload Certificate Image" accept="image/*" onChange={handleImage} />
+            </div>
+            <div className="mb-4">
+              <Input label="Upload Names CSV" accept=".csv,.txt" onChange={handleCSV} />
+            </div>
+            <div className="mb-4">
+              <label className="block text-sm text-gray-400">Text Color</label>
+              <input type="color" value={color} onChange={e=>setColor(e.target.value)} />
+            </div>
+            <div className="mb-4">
+              <label className="block text-sm text-gray-400">Font Size</label>
+              {/* Radix Slider expects value as an array (range support). Provide single-value array and use onValueChange. */}
+              <Slider
+                min={10}
+                max={120}
+                value={[fontSize]}
+                onValueChange={(val) => setFontSize(Number(val?.[0] ?? fontSize))}
+              />
+              <div className="text-sm text-gray-400">{fontSize}px</div>
+            </div>
+            <div className="mb-4">
+              <label className="block text-sm text-gray-400">Text X</label>
+              <Input type="number" value={textX} onChange={e=>setTextX(Number(e.target.value))} />
+            </div>
+            <div className="mb-4">
+              <label className="block text-sm text-gray-400">Text Y</label>
+              <Input type="number" value={textY} onChange={e=>setTextY(Number(e.target.value))} />
+            </div>
+
+            <div className="flex gap-2 mb-6">
+              <Button onClick={saveImages}>Download</Button>
+              <Button variant="ghost" onClick={exportAsPDF}>PDF</Button>
+              <Button variant="ghost" onClick={printCertificates}>Print</Button>
+            </div>
+
+            <div className="rounded-md border p-3 bg-card">
+              <h4 className="font-medium mb-2">Key features</h4>
+              <ul className="text-sm text-muted-foreground space-y-2">
+                <li>Bulk generation from spreadsheet</li>
+                <li>Personalize certificates with dynamic fields</li>
+                <li>Export as PDF or PNG</li>
+                <li>Preview before download</li>
+                <li>Print or email generated files</li>
+              </ul>
+            </div>
+          </aside>
+
+          <main className="flex-1">
+            <div className="rounded-2xl border p-4 bg-card">
+              <canvas ref={previewRef} className="w-full max-h-[70vh]" />
+            </div>
+          </main>
         </div>
       </div>
     </div>
