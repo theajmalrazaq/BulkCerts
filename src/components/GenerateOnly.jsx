@@ -3,6 +3,14 @@ import { Button } from './ui/button'
 import ThemeToggle from './ThemeToggle'
 import { Slider } from './ui/slider'
 import {Input} from './ui/input'
+import {
+  Card,
+  CardHeader,
+  CardTitle,
+  CardDescription,
+  CardContent,
+  CardFooter,
+} from './ui/card'
 
 export default function GenerateOnly({ navigate }){
   const previewRef = useRef(null)
@@ -113,39 +121,38 @@ export default function GenerateOnly({ navigate }){
       }finally{ setSaving(false) }
     }, 50)
   }
-
-  function exportAsPDF(){
-    if(!uploadedImage){ window.notify && window.notify('Upload image first','alert-circle'); return }
-    // rely on jspdf being available on window (legacy) or skip
-    if(typeof window.jspdf === 'undefined'){
-      window.notify && window.notify('jsPDF not available (use CDN or install jspdf)','alert-circle')
-      return
+  
+    function exportAsPDF(){
+      if(!uploadedImage){ window.notify && window.notify('Upload image first','alert-circle'); return }
+      // rely on jspdf being available on window (legacy) or skip
+      if(typeof window.jspdf === 'undefined'){
+        window.notify && window.notify('jsPDF not available (use CDN or install jspdf)','alert-circle')
+        return
+      }
+      try{
+        const jsPDF = window.jspdf && window.jspdf.jsPDF
+        if(!jsPDF){ window.notify && window.notify('jsPDF not available','alert-circle'); return }
+        const pdf = new jsPDF('l','px',[uploadedImage.width, uploadedImage.height])
+        // draw each name onto a temp canvas and add as image to pdf
+        names.forEach((name, idx)=>{
+          const temp = document.createElement('canvas')
+          temp.width = uploadedImage.width
+          temp.height = uploadedImage.height
+          const tctx = temp.getContext('2d')
+          tctx.drawImage(uploadedImage,0,0)
+          const style = `${italic ? 'italic ' : ''}${bold ? 'bold ' : ''}`
+          tctx.font = `${style}${fontSize}px ${fontFamily}`
+          tctx.fillStyle = color
+          tctx.textAlign = textAlign
+          tctx.fillText(name, textX, textY)
+          const imgData = temp.toDataURL('image/png')
+          if(idx>0) pdf.addPage()
+          pdf.addImage(imgData, 'PNG', 0, 0, uploadedImage.width, uploadedImage.height)
+        })
+        pdf.save('certificates.pdf')
+        window.notify && window.notify('PDF exported','check')
+      }catch(err){ console.error(err); window.notify && window.notify('PDF export failed','alert-circle') }
     }
-    try{
-      const jsPDF = window.jspdf && window.jspdf.jsPDF
-      if(!jsPDF){ window.notify && window.notify('jsPDF not available','alert-circle'); return }
-      const pdf = new jsPDF('l','px',[uploadedImage.width, uploadedImage.height])
-      // draw each name onto a temp canvas and add as image to pdf
-      names.forEach((name, idx)=>{
-        const temp = document.createElement('canvas')
-        temp.width = uploadedImage.width
-        temp.height = uploadedImage.height
-        const tctx = temp.getContext('2d')
-        tctx.drawImage(uploadedImage,0,0)
-        const style = `${italic ? 'italic ' : ''}${bold ? 'bold ' : ''}`
-        tctx.font = `${style}${fontSize}px ${fontFamily}`
-        tctx.fillStyle = color
-        tctx.textAlign = textAlign
-        tctx.fillText(name, textX, textY)
-        const imgData = temp.toDataURL('image/png')
-        if(idx>0) pdf.addPage()
-        pdf.addImage(imgData, 'PNG', 0, 0, uploadedImage.width, uploadedImage.height)
-      })
-      pdf.save('certificates.pdf')
-      window.notify && window.notify('PDF exported','check')
-    }catch(err){ console.error(err); window.notify && window.notify('PDF export failed','alert-circle') }
-  }
-
   function printCertificates(){
     if(!uploadedImage){ window.notify && window.notify('Upload image first','alert-circle'); return }
     const printWindow = window.open('','_blank')
@@ -160,8 +167,8 @@ export default function GenerateOnly({ navigate }){
       tctx.fillStyle = color
       tctx.textAlign = textAlign
       tctx.fillText(name, textX, textY)
-      const img = temp.toDataURL()
-      printWindow.document.write(`<img src="${img}" style="width:100%;page-break-after:always"/>`)
+  const img = temp.toDataURL()
+  printWindow.document.write(`<img src="${img}" style="width:100%;page-break-after:always"/>`)
     })
     printWindow.document.close()
     printWindow.focus()
@@ -215,12 +222,12 @@ export default function GenerateOnly({ navigate }){
   }
 
   return (
-    <div className="min-h-screen p-6 bg-background text-foreground">
-      <div className="max-w-6xl mx-auto px-6">
-        <header className="flex items-center justify-between py-6">
+    <div className="min-h-screen bg-background text-foreground">
+      <div className="max-w-6xl mx-auto px-6 py-12">
+        <header className="flex items-center justify-between mb-10">
           <div className="flex items-center gap-4">
-            <img src="/Public/assest/logo.svg" alt="logo" className="h-8" />
-            <h1 className="text-lg font-semibold">BulkCerts</h1>
+            <img src="/Public/assest/logo.svg" alt="logo" className="h-9" />
+            <h1 className="text-xl font-semibold">BulkCerts</h1>
           </div>
           <div className="flex items-center gap-4">
             <a href="https://github.com/theajmalrazaq/BulkCerts" target="_blank" rel="noreferrer" className="text-sm text-muted-foreground">GitHub</a>
@@ -228,56 +235,90 @@ export default function GenerateOnly({ navigate }){
           </div>
         </header>
 
-        <div className="flex gap-6">
-          <aside className="w-72">
-            <div className="mb-4 flex items-center justify-between">
-              <div className="text-lg font-semibold">Generate Only</div>
-              <Button variant="ghost" onClick={() => { if(step === 1){ navigate && navigate('home') } else { setStep(1) } }}>
-                {step === 1 ? 'Back' : 'Back'}
-              </Button>
-            </div>
+        <section className="grid grid-cols-1 lg:grid-cols-2 gap-10 items-start">
+          <div>
+            <Card>
+              <CardHeader>
+                <CardTitle>Generate Certificates</CardTitle>
+                <CardDescription className="mt-1">Upload a certificate template and a CSV of names, then customize text placement and export.</CardDescription>
+              </CardHeader>
+              <CardContent>
+                <div className="space-y-4">
+                  <div>
+                    <label className="block text-sm text-muted-foreground">Certificate Template</label>
+                    <Input type="file" accept="image/*" onChange={handleImage} />
+                    <div className="text-xs text-muted-foreground mt-1">Recommended: PNG or high-res JPG.</div>
+                  </div>
 
-            {step === 1 ? (
-              <div className="space-y-4">
-                <div>
-                  <label className="block text-sm text-muted-foreground">Upload Certificate Image</label>
-                  <Input type="file" accept="image/*" onChange={handleImage} aria-label="Upload certificate image" />
-                  <div className="text-xs text-muted-foreground mt-1">PNG or JPG recommended. Click to select or drag image file onto the page.</div>
-                </div>
-                <div>
-                  <label className="block text-sm text-muted-foreground">Upload Names (CSV or TXT)</label>
-                  <Input type="file" accept=".csv,.txt" onChange={handleCSV} aria-label="Upload names csv" />
-                  <div className="text-xs text-muted-foreground mt-1">First column or each line will be used as a name.</div>
-                </div>
+                  <div>
+                    <label className="block text-sm text-muted-foreground">Names (CSV / TXT)</label>
+                    <Input type="file" accept=".csv,.txt" onChange={handleCSV} />
+                    <div className="text-xs text-muted-foreground mt-1">First column or each line will be used as the name.</div>
+                  </div>
 
-                <div className="flex gap-2">
-                  <Button className="flex-1" onClick={() => {
-                    if(!uploadedImage){ window.notify && window.notify('Please upload an image first','alert-circle'); return }
-                    if(!names || !names.length){ window.notify && window.notify('Please upload a names file','alert-circle'); return }
-                    setStep(2)
-                  }}>Next</Button>
-                  <Button variant="ghost" className="w-20" onClick={() => navigate && navigate('home')}>Cancel</Button>
-                </div>
-              </div>
-            ) : (
-              <div className="space-y-4">
-                <div className="text-sm text-muted-foreground">Uploaded Image: {uploadedImage ? 'Yes' : 'No'} • Names: {names?.length || 0}</div>
-                <div className="flex gap-2">
-                  <Button className="flex-1" onClick={saveImages} disabled={saving}>{saving ? 'Saving…' : 'Download'}</Button>
-                  <Button variant="ghost" className="w-20" onClick={exportAsPDF}>PDF</Button>
-                  <Button variant="ghost" className="w-20" onClick={printCertificates}>Print</Button>
-                </div>
-                <div>
-                  <Button variant="ghost" onClick={() => setStep(1)}>Edit Uploads</Button>
-                </div>
-              </div>
-            )}
-          </aside>
+                  <div className="flex gap-2">
+                    <Button className="flex-1" onClick={saveImages} disabled={saving}>{saving ? 'Saving…' : 'Download All'}</Button>
+                    <Button variant="outline" onClick={exportAsPDF}>Export PDF</Button>
+                  </div>
 
-          {step === 2 && (
-            <main className="flex-1">
-              <div className="rounded-2xl border p-4 bg-card flex gap-4 items-stretch">
-              <div className="flex-1 flex flex-col">
+                  <div className="border-t pt-4">
+                    <div className="grid grid-cols-1 gap-3">
+                      <div>
+                        <label className="block text-sm text-muted-foreground">Preview Name</label>
+                        <Input value={previewName} onChange={e=>setPreviewName(e.target.value)} />
+                      </div>
+
+                      <div>
+                        <label className="block text-sm text-muted-foreground">Font Family</label>
+                        <select value={fontFamily} onChange={e=>setFontFamily(e.target.value)} className="w-full mt-1 p-2 rounded border bg-background">
+                          <option>Arial</option>
+                          <option>Times New Roman</option>
+                          <option>Georgia</option>
+                          <option>Courier New</option>
+                          <option>Verdana</option>
+                        </select>
+                      </div>
+
+                      <div className="flex gap-2 items-center">
+                        <div className="flex-1">
+                          <label className="block text-sm text-muted-foreground">Font Size</label>
+                          <Slider min={10} max={120} value={[fontSize]} onValueChange={(val) => setFontSize(Number(val?.[0] ?? fontSize))} />
+                          <div className="text-sm text-muted-foreground mt-1">{fontSize}px</div>
+                        </div>
+                        <div className="w-24">
+                          <label className="block text-sm text-muted-foreground">Color</label>
+                          <input type="color" value={color} onChange={e=>setColor(e.target.value)} className="w-full h-8 p-0 border rounded" />
+                        </div>
+                      </div>
+
+                      <div className="flex items-center gap-2">
+                        <button className={`px-3 py-1 rounded border ${bold ? 'bg-muted' : 'bg-background'}`} onClick={()=>setBold(b=>!b)}>{bold ? 'Bold ✓' : 'Bold'}</button>
+                        <button className={`px-3 py-1 rounded border ${italic ? 'bg-muted' : 'bg-background'}`} onClick={()=>setItalic(i=>!i)}>{italic ? 'Italic ✓' : 'Italic'}</button>
+                      </div>
+
+                      <div className="grid grid-cols-2 gap-3">
+                        <div>
+                          <label className="block text-sm text-muted-foreground">Text X</label>
+                          <Input type="number" value={textX} onChange={e=>setTextX(Number(e.target.value))} />
+                        </div>
+                        <div>
+                          <label className="block text-sm text-muted-foreground">Text Y</label>
+                          <Input type="number" value={textY} onChange={e=>setTextY(Number(e.target.value))} />
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </CardContent>
+              <CardFooter>
+                <div className="text-sm text-muted-foreground">Names loaded: {names?.length || 0}</div>
+              </CardFooter>
+            </Card>
+          </div>
+
+          <div>
+            <Card>
+              <CardContent>
                 <div ref={wrapperRef} className="mb-4 overflow-auto flex items-center justify-center">
                   <canvas
                     ref={previewRef}
@@ -288,7 +329,6 @@ export default function GenerateOnly({ navigate }){
                   />
                 </div>
 
-                {/* Bottom toolbar: quick editing controls */}
                 <div className="flex items-center justify-between mt-2 gap-4">
                   <div className="flex items-center gap-2">
                     <label className="text-sm text-muted-foreground">Align</label>
@@ -305,71 +345,12 @@ export default function GenerateOnly({ navigate }){
                     <button className="px-3 py-1 text-sm rounded border bg-background hover:bg-muted" onClick={()=> setFontSize(s=>Math.max(10,s-2))}>A-</button>
                   </div>
 
-                  <div className="flex items-center gap-2">
-                    <label className="text-sm text-muted-foreground">Preview Name</label>
-                    <input className="p-1 rounded border" value={previewName} onChange={e=>{ setPreviewName(e.target.value); }} />
-                  </div>
+               
                 </div>
-              </div>
-
-              {/* Right-side edit panel */}
-              <aside className="w-72 shrink-0 flex flex-col">
-                <div className="mb-2 font-medium">Edit Options</div>
-                <div className="space-y-4">
-                  <div>
-                    <label className="block text-sm text-muted-foreground">Font Family</label>
-                    <select value={fontFamily} onChange={e=>setFontFamily(e.target.value)} className="w-full mt-1 p-2 rounded border bg-background">
-                      <option>Arial</option>
-                      <option>Times New Roman</option>
-                      <option>Georgia</option>
-                      <option>Courier New</option>
-                      <option>Verdana</option>
-                    </select>
-                  </div>
-
-                  <div>
-                    <label className="block text-sm text-muted-foreground">Text Color</label>
-                    <input
-                      type="color"
-                      value={color}
-                      onChange={e=>setColor(e.target.value)}
-                      className="w-full h-8 p-0 border rounded"
-                    />
-                  </div>
-
-                  <div>
-                    <label className="block text-sm text-muted-foreground">Font Size</label>
-                    <div className="mt-2">
-                      <Slider
-                        min={10}
-                        max={120}
-                        value={[fontSize]}
-                        onValueChange={(val) => setFontSize(Number(val?.[0] ?? fontSize))}
-                      />
-                    </div>
-                    <div className="text-sm text-muted-foreground mt-1">{fontSize}px</div>
-                  </div>
-
-                  <div className="flex items-center gap-2">
-                    <label className="text-sm text-muted-foreground">Style</label>
-                    <button className={`px-3 py-1 rounded border ${bold ? 'bg-muted' : 'bg-background'}`} onClick={()=>setBold(b=>!b)}>{bold ? 'Bold ✓' : 'Bold'}</button>
-                    <button className={`px-3 py-1 rounded border ${italic ? 'bg-muted' : 'bg-background'}`} onClick={()=>setItalic(i=>!i)}>{italic ? 'Italic ✓' : 'Italic'}</button>
-                  </div>
-
-                  <div>
-                    <label className="block text-sm text-muted-foreground">Text X</label>
-                    <Input type="number" value={textX} onChange={e=>setTextX(Number(e.target.value))} />
-                  </div>
-                  <div>
-                    <label className="block text-sm text-muted-foreground">Text Y</label>
-                    <Input type="number" value={textY} onChange={e=>setTextY(Number(e.target.value))} />
-                  </div>
-                </div>
-              </aside>
-            </div>
-          </main>
-          )}
-        </div>
+              </CardContent>
+            </Card>
+          </div>
+        </section>
       </div>
     </div>
   )
