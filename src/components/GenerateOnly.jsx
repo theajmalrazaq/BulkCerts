@@ -1,4 +1,4 @@
-import React, { useRef, useState, useEffect } from 'react'
+import React, { useRef, useState, useEffect, useCallback } from 'react'
 import { Button } from './ui/button'
 import ThemeToggle from './ThemeToggle'
 import { Slider } from './ui/slider'
@@ -6,8 +6,11 @@ import {Input} from './ui/input'
 
 export default function GenerateOnly({ navigate }){
   const previewRef = useRef(null)
+  const wrapperRef = useRef(null)
+  const draggingRef = useRef({ active: false, offsetX: 0, offsetY: 0 })
   const [uploadedImage, setUploadedImage] = useState(null)
   const [names, setNames] = useState(['Demo Name'])
+  const [previewName, setPreviewName] = useState('Demo Name')
   const [fontSize, setFontSize] = useState(40)
   const [color, setColor] = useState('#ffffff')
   const [textX, setTextX] = useState(100)
@@ -15,26 +18,37 @@ export default function GenerateOnly({ navigate }){
   const [fontFamily, setFontFamily] = useState('Arial')
   const [bold, setBold] = useState(false)
   const [italic, setItalic] = useState(false)
-  const [textAlign, setTextAlign] = useState('left')
+  const [textAlign, setTextAlign] = useState('center')
   const [step, setStep] = useState(1)
+  const [saving, setSaving] = useState(false)
 
-  useEffect(()=>{
-    if(!uploadedImage) return
+  // Draw preview with correct scaling and high-resolution support.
+  const drawPreview = useCallback(()=>{
     const canvas = previewRef.current
-    canvas.width = uploadedImage.width
-    canvas.height = uploadedImage.height
-    // make the canvas element responsive in layout while keeping drawing resolution
+    if(!canvas || !uploadedImage) return
+
+    const dpr = window.devicePixelRatio || 1
+    // target drawing size = actual image size
+    const imgW = uploadedImage.width
+    const imgH = uploadedImage.height
+    canvas.width = Math.round(imgW * dpr)
+    canvas.height = Math.round(imgH * dpr)
     canvas.style.width = '100%'
     canvas.style.height = 'auto'
-    canvas.style.maxHeight = '70vh'
     const ctx = canvas.getContext('2d')
-    ctx.drawImage(uploadedImage,0,0)
+    ctx.setTransform(dpr, 0, 0, dpr, 0, 0)
+    ctx.clearRect(0,0,imgW,imgH)
+    ctx.drawImage(uploadedImage,0,0, imgW, imgH)
+
     const style = `${italic ? 'italic ' : ''}${bold ? 'bold ' : ''}`
     ctx.font = `${style}${fontSize}px ${fontFamily}`
     ctx.fillStyle = color
     ctx.textAlign = textAlign
-    ctx.fillText(names[0]||'Demo Name', textX, textY)
-  },[uploadedImage,fontSize,color,names,textX,textY,fontFamily,bold,italic,textAlign])
+    const text = previewName || names[0] || 'Demo Name'
+    ctx.fillText(text, textX, textY)
+  },[uploadedImage,fontSize,color,previewName,names,textX,textY,fontFamily,bold,italic,textAlign])
+
+  useEffect(()=>{ drawPreview() },[drawPreview])
 
   function handleImage(e){
     const file = e.target.files[0]
@@ -42,7 +56,12 @@ export default function GenerateOnly({ navigate }){
     const reader = new FileReader()
     reader.onload = (ev)=>{
       const img = new Image()
-      img.onload = ()=> setUploadedImage(img)
+      img.onload = ()=> {
+        setUploadedImage(img)
+        // center text defaults
+        setTextX(Math.round(img.width/2))
+        setTextY(Math.round(img.height/2 + 20))
+      }
       img.src = ev.target.result
     }
     reader.readAsDataURL(file)
@@ -53,31 +72,46 @@ export default function GenerateOnly({ navigate }){
     if(!f) return
     const r = new FileReader()
     r.onload = (ev)=>{
-      const lines = ev.target.result.split('\n').map(l=>l.trim()).filter(Boolean)
-      if(lines.length) setNames(lines)
+      // support CSV or newline separated. Take first column if CSV.
+      const text = ev.target.result
+      const rows = text.split(/\r?\n/).map(l=>l.trim()).filter(Boolean)
+      const parsed = rows.map(rw => {
+        // if comma separated, take first cell
+        const parts = rw.split(',')
+        return parts[0].replace(/^\uFEFF/, '').trim()
+      }).filter(Boolean)
+      if(parsed.length) {
+        setNames(parsed)
+        setPreviewName(parsed[0])
+      }
     }
     r.readAsText(f)
   }
 
   function saveImages(){
     if(!uploadedImage) return alert('Upload an image first')
-    const off = document.createElement('canvas')
-    off.width = uploadedImage.width
-    off.height = uploadedImage.height
-    const ctx = off.getContext('2d')
-    names.forEach(name=>{
-      ctx.clearRect(0,0,off.width,off.height)
-      ctx.drawImage(uploadedImage,0,0)
-      const style = `${italic ? 'italic ' : ''}${bold ? 'bold ' : ''}`
-      ctx.font = `${style}${fontSize}px ${fontFamily}`
-      ctx.fillStyle = color
-      ctx.textAlign = textAlign
-      ctx.fillText(name, textX, textY)
-      const link = document.createElement('a')
-      link.download = `${name}.png`
-      link.href = off.toDataURL()
-      link.click()
-    })
+    setSaving(true)
+    setTimeout(()=>{
+      try{
+        const off = document.createElement('canvas')
+        off.width = uploadedImage.width
+        off.height = uploadedImage.height
+        const ctx = off.getContext('2d')
+        names.forEach((name, idx)=>{
+          ctx.clearRect(0,0,off.width,off.height)
+          ctx.drawImage(uploadedImage,0,0)
+          const style = `${italic ? 'italic ' : ''}${bold ? 'bold ' : ''}`
+          ctx.font = `${style}${fontSize}px ${fontFamily}`
+          ctx.fillStyle = color
+          ctx.textAlign = textAlign
+          ctx.fillText(name, textX, textY)
+          const link = document.createElement('a')
+          link.download = `${name}.png`
+          link.href = off.toDataURL('image/png')
+          link.click()
+        })
+      }finally{ setSaving(false) }
+    }, 50)
   }
 
   function exportAsPDF(){
@@ -133,6 +167,53 @@ export default function GenerateOnly({ navigate }){
     printWindow.focus()
     setTimeout(()=>{ printWindow.print(); printWindow.close() },300)
   }
+  // Canvas interaction: allow dragging the preview text to reposition
+  function getCanvasClientToImageScale(){
+    const canvas = previewRef.current
+    if(!canvas || !uploadedImage) return 1
+    // canvas displayed width (CSS) vs image width
+    const rect = canvas.getBoundingClientRect()
+    return uploadedImage.width / rect.width
+  }
+
+  function handleCanvasPointerDown(e){
+    if(!uploadedImage) return
+    const canvas = previewRef.current
+    const rect = canvas.getBoundingClientRect()
+    const scale = getCanvasClientToImageScale()
+    const clientX = e.clientX
+    const clientY = e.clientY
+    const imgX = (clientX - rect.left) * scale
+    const imgY = (clientY - rect.top) * scale
+    // measure text bounding rough area
+    const approxWidth = (fontSize * (previewName.length || 8)) / 2
+    const approxHeight = fontSize
+    if(Math.abs(imgX - textX) < approxWidth && Math.abs(imgY - textY) < approxHeight){
+      draggingRef.current.active = true
+      draggingRef.current.offsetX = imgX - textX
+      draggingRef.current.offsetY = imgY - textY
+      window.addEventListener('pointermove', handleCanvasPointerMove)
+      window.addEventListener('pointerup', handleCanvasPointerUp)
+    }
+  }
+
+  function handleCanvasPointerMove(e){
+    if(!draggingRef.current.active) return
+    const canvas = previewRef.current
+    const rect = canvas.getBoundingClientRect()
+    const scale = getCanvasClientToImageScale()
+    const imgX = (e.clientX - rect.left) * scale
+    const imgY = (e.clientY - rect.top) * scale
+    setTextX(Math.round(imgX - draggingRef.current.offsetX))
+    setTextY(Math.round(imgY - draggingRef.current.offsetY))
+  }
+
+  function handleCanvasPointerUp(){
+    draggingRef.current.active = false
+    window.removeEventListener('pointermove', handleCanvasPointerMove)
+    window.removeEventListener('pointerup', handleCanvasPointerUp)
+  }
+
   return (
     <div className="min-h-screen p-6 bg-background text-foreground">
       <div className="max-w-6xl mx-auto px-6">
@@ -159,10 +240,14 @@ export default function GenerateOnly({ navigate }){
             {step === 1 ? (
               <div className="space-y-4">
                 <div>
-                  <Input type="file" label="Upload Certificate Image" accept="image/*" onChange={handleImage} />
+                  <label className="block text-sm text-muted-foreground">Upload Certificate Image</label>
+                  <Input type="file" accept="image/*" onChange={handleImage} aria-label="Upload certificate image" />
+                  <div className="text-xs text-muted-foreground mt-1">PNG or JPG recommended. Click to select or drag image file onto the page.</div>
                 </div>
                 <div>
-                  <Input type="file" label="Upload Names CSV" accept=".csv,.txt" onChange={handleCSV} />
+                  <label className="block text-sm text-muted-foreground">Upload Names (CSV or TXT)</label>
+                  <Input type="file" accept=".csv,.txt" onChange={handleCSV} aria-label="Upload names csv" />
+                  <div className="text-xs text-muted-foreground mt-1">First column or each line will be used as a name.</div>
                 </div>
 
                 <div className="flex gap-2">
@@ -178,7 +263,7 @@ export default function GenerateOnly({ navigate }){
               <div className="space-y-4">
                 <div className="text-sm text-muted-foreground">Uploaded Image: {uploadedImage ? 'Yes' : 'No'} • Names: {names?.length || 0}</div>
                 <div className="flex gap-2">
-                  <Button className="flex-1" onClick={saveImages}>Download</Button>
+                  <Button className="flex-1" onClick={saveImages} disabled={saving}>{saving ? 'Saving…' : 'Download'}</Button>
                   <Button variant="ghost" className="w-20" onClick={exportAsPDF}>PDF</Button>
                   <Button variant="ghost" className="w-20" onClick={printCertificates}>Print</Button>
                 </div>
@@ -193,11 +278,13 @@ export default function GenerateOnly({ navigate }){
             <main className="flex-1">
               <div className="rounded-2xl border p-4 bg-card flex gap-4 items-stretch">
               <div className="flex-1 flex flex-col">
-                <div className="mb-4 overflow-auto flex items-center justify-center">
+                <div ref={wrapperRef} className="mb-4 overflow-auto flex items-center justify-center">
                   <canvas
                     ref={previewRef}
                     className="block w-full h-auto max-h-[70vh]"
-                    style={{ width: '100%', height: 'auto', maxHeight: '70vh' }}
+                    style={{ width: '100%', height: 'auto', maxHeight: '70vh', touchAction: 'none', cursor: draggingRef.current.active ? 'grabbing' : 'crosshair' }}
+                    onPointerDown={handleCanvasPointerDown}
+                    aria-label="Certificate preview canvas"
                   />
                 </div>
 
@@ -206,7 +293,7 @@ export default function GenerateOnly({ navigate }){
                   <div className="flex items-center gap-2">
                     <label className="text-sm text-muted-foreground">Align</label>
                     <div className="flex gap-2">
-                      <button className="px-3 py-1 text-sm rounded border bg-background hover:bg-muted" onClick={()=>{ setTextAlign('left'); setTextX(50) }}>Left</button>
+                      <button className="px-3 py-1 text-sm rounded border bg-background hover:bg-muted" onClick={()=>{ setTextAlign('left'); if(uploadedImage) setTextX(50) }}>Left</button>
                       <button className="px-3 py-1 text-sm rounded border bg-background hover:bg-muted" onClick={()=>{ setTextAlign('center'); if(uploadedImage) setTextX(uploadedImage.width/2) }}>Center</button>
                       <button className="px-3 py-1 text-sm rounded border bg-background hover:bg-muted" onClick={()=>{ setTextAlign('right'); if(uploadedImage) setTextX(uploadedImage.width - 50) }}>Right</button>
                     </div>
@@ -220,7 +307,7 @@ export default function GenerateOnly({ navigate }){
 
                   <div className="flex items-center gap-2">
                     <label className="text-sm text-muted-foreground">Preview Name</label>
-                    <div className="text-sm text-muted-foreground">{names[0] || 'Demo Name'}</div>
+                    <input className="p-1 rounded border" value={previewName} onChange={e=>{ setPreviewName(e.target.value); }} />
                   </div>
                 </div>
               </div>
